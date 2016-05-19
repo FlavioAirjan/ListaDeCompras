@@ -3,11 +3,12 @@ package com.listadecompras.listadecompras;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by Flavio on 17/05/2016.
  */
-public class ListaItens {
+public class ListaItens implements Serializable {
 
     private List<Item> listaItens;
     private String nome;

@@ -1,6 +1,7 @@
 package com.listadecompras.listadecompras;
 
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -30,17 +31,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PlaceholderFragmentPasta())
                     .commit();
         }
 
+
     }
 
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragmentPasta extends Fragment {
 
         private PastaListas pastaLista;
 
-        public PlaceholderFragment() {
+        public PlaceholderFragmentPasta() {
             this.pastaLista=new PastaListas();
         }
 
@@ -63,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
 
-            pastaLista.addLista("NOVA");
+            pastaLista.addLista("Primeira Lista");
 
             for(int i=0;i<10;i++){
-            pastaLista.getListItens("NOVA").AddItem(new Item(String.valueOf(i)));
+            pastaLista.getListItens("Primeira Lista").AddItem(new Item("Item: "+String.valueOf(i)));
             }
             // Criando uma lista (ArrayList) com os dados criados acima
             List<String> listOfLastPosts = new ArrayList<>();
@@ -85,17 +87,20 @@ public class MainActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.activity_main, container, false);
 
             // Cria uma referência para a ListView
-            ListView listView = (ListView) rootView.findViewById(R.id.list_last_posts);
+            final ListView listView = (ListView) rootView.findViewById(R.id.list_last_posts);
             listView.setAdapter(listOfLastPostsAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-
-                    String item = pastaLista.getListItens("NOVA").getNome();
-
+                    String item = pastaLista.getListaListas().get(position).getNome();//getListItens("NOVA").getListaItens().get(position).getNome();
                     Toast.makeText(getActivity(), item, Toast.LENGTH_LONG).show();
+
+                    //Vai para a lista de itens clicada
+                    Intent i = new Intent(view.getContext(), ListActivity.class);
+                    i.putExtra("listObject", pastaLista.getListaListas().get(position));
+                    startActivity(i);
 
                 }
             });

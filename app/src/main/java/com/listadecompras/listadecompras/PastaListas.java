@@ -7,7 +7,11 @@ import java.util.List;
  * Created by Flavio on 17/05/2016.
  */
 public class PastaListas {
+
     private List<ListaItens> listaListas;
+
+
+
 
     public PastaListas() {
         this.listaListas = new ArrayList<>();

@@ -1,9 +1,11 @@
 package com.listadecompras.listadecompras;
 
+import java.io.Serializable;
+
 /**
  * Created by Flavio on 17/05/2016.
  */
-public class Item {
+public class Item implements Serializable{
     private String nome;
     private int quantidade;
     private String tipo;
