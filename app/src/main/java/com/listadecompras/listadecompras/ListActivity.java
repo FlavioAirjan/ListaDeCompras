@@ -1,6 +1,7 @@
 package com.listadecompras.listadecompras;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +24,12 @@ import java.util.List;
  */
 public class ListActivity extends AppCompatActivity {
 
+    private ListaItens listaItens;
     TextView myAwesomeTextView;
-
-
+    ListView lv;
+    Context context;
+    CustomAdapterListaItens adapter;
+    private static LayoutInflater inflater=null;
 
 
     /**
@@ -32,83 +37,45 @@ public class ListActivity extends AppCompatActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_compras);
+
+
         Intent i = getIntent();
+        listaItens=(ListaItens)i.getSerializableExtra("listObject");
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.lista_compras);
+        context = this;
+
+        lv= (ListView) findViewById(R.id.list_itens);
+        adapter=new CustomAdapterListaItens(this, listaItens);
+        lv.setAdapter(adapter);
+
         myAwesomeTextView = (TextView)findViewById(R.id.list_text_view_name);
-        myAwesomeTextView.setText(((ListaItens)i.getSerializableExtra("listObject")).getNome());
-        if (savedInstanceState == null) {
-            PlaceholderFragmentList fragment=new PlaceholderFragmentList();
-            fragment.setListaItens((ListaItens)i.getSerializableExtra("listObject"));
+        myAwesomeTextView.setText(listaItens.getNome());
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
-        }
-    }
+        final Button button = (Button) findViewById(R.id.add_item_button);
 
-
-    public static class PlaceholderFragmentList extends Fragment {
-
-        private ListaItens listaItens;
-
-        public PlaceholderFragmentList() {
-            this.listaItens=new ListaItens("novo");
-        }
-
-        public void addItens(List<String> list, ListaItens listaDeItens) {
-            for (int i = 0; i < listaDeItens.getListaItens().size(); i++) {
-                list.add(listaDeItens.getListaItens().get(i).getNome());
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(context, "Add Item", Toast.LENGTH_LONG).show();
+                adapter.addItem(new Item("novo"));
+                adapter.notifyDataSetChanged();
             }
-        }
-
-        public void setListaItens(ListaItens itens) {
-            this.listaItens=itens;
-        }
-
-
-
-
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-
-
-            List<String> listOfItens = new ArrayList<>();
-
-            addItens(listOfItens, listaItens);
-            //addListas(listOfLastPosts,pastaLista);
-
-            // Agora que já temos os dados, vamos criar um Adapter, no caso um ArrayAdapter
-            ArrayAdapter<String> listOfLastPostsAdapter = new ArrayAdapter<String>(
-                    getActivity(), // O contexto atual
-                    R.layout.list_item_last_posts, // O arquivo de layout de cada item
-                    R.id.list_item_post_title_textview, // O ID do campo a ser preenchido
-                    listOfItens // A fonte dos dados
-            );
-            // Inflamos o layout principal
-            View rootView = inflater.inflate(R.layout.lista_compras, container, false);
-
-            // Cria uma referência para a ListView
-            final ListView listView = (ListView) rootView.findViewById(R.id.list_itens);
-            listView.setAdapter(listOfLastPostsAdapter);
-
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position,
-                                        long id) {
-                    String item = listaItens.getListaItens().get(position).getNome();
-                    Toast.makeText(getActivity(), item, Toast.LENGTH_LONG).show();
-
-                    //Vai para a lista de itens clicada
-                   // Intent i = new Intent(view.getContext(), ListActivity.class);
-                    //startActivity(i);
-
-                }
-            });
-
-            // Retornamos tudo
-            return rootView;
-        }
+        });
     }
+
+    public void removeItem(int pos){
+        runOnUiThread(new Runnable() {
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+
+    }
+
+
+
 }
+

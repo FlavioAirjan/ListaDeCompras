@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
             pastaLista.addLista("Primeira Lista");
 
             for(int i=0;i<10;i++){
-            pastaLista.getListItens("Primeira Lista").AddItem(new Item("Item: "+String.valueOf(i)));
+            pastaLista.getListItens("Primeira Lista").AddItem(new Item("Item: "+String.valueOf(i),i+1,"un"));
+
             }
             // Criando uma lista (ArrayList) com os dados criados acima
             List<String> listOfLastPosts = new ArrayList<>();
