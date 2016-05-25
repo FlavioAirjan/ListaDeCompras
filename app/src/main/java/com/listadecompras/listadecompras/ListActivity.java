@@ -30,6 +30,7 @@ public class ListActivity extends AppCompatActivity {
     Context context;
     CustomAdapterListaItens adapter;
     private static LayoutInflater inflater=null;
+    int position;
 
 
     /**
@@ -41,6 +42,7 @@ public class ListActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         listaItens=(ListaItens)i.getSerializableExtra("listObject");
+        position=(int)i.getSerializableExtra("position");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.lista_compras);
@@ -62,7 +64,26 @@ public class ListActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+
+        final Button buttonMenu = (Button) findViewById(R.id.menu_inicial);
+
+        buttonMenu.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(context, "Menu Inicial", Toast.LENGTH_LONG).show();
+               // Intent i = new Intent(v.getContext(), MainActivity.class);
+               // startActivity(i);
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",listaItens);
+                returnIntent.putExtra("position",position);
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
+            }
+        });
+
+
     }
+
+
 
     public void removeItem(int pos){
         runOnUiThread(new Runnable() {

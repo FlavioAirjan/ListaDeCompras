@@ -1,12 +1,13 @@
 package com.listadecompras.listadecompras;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Flavio on 17/05/2016.
  */
-public class PastaListas {
+public class PastaListas implements Serializable {
 
     private List<ListaItens> listaListas;
 
@@ -31,6 +32,15 @@ public class PastaListas {
 
     public void removeLista(ListaItens lista){
         this.listaListas.remove(lista);
+    }
+
+    public void updateListaIten(ListaItens item,int position){
+        this.listaListas.remove(position);
+        this.listaListas.add(position,item);
+    }
+
+    public void addListaIten(ListaItens item){
+        this.listaListas.add(item);
     }
 
     public ListaItens getListItens(String nome){

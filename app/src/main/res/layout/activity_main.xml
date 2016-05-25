@@ -22,4 +22,13 @@ android:id = "@+id/container">
         android:layout_marginLeft="100dp">
     </Button>
 
+    <Button
+        android:id="@+id/menu_inicial"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:text="Listas"
+        android:layout_gravity="left|top"
+        android:layout_marginLeft="0dp"
+        android:textAlignment="inherit">
+    </Button>
 </FrameLayout>

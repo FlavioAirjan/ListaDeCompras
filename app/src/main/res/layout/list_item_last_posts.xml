@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="32dp"
-    android:paddingRight="32dp"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:gravity="center_vertical"
-    android:id="@+id/list_item_post_title_textview">
+    android:orientation="horizontal"
+    android:padding="6dp" >
 
-</TextView>
+
+    <TextView
+        android:id="@+id/nome_lista"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1.73"
+        android:ellipsize="end"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <Button
+        android:id="@+id/btn_menos_lista"
+        android:layout_width="49dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="-"
+        android:textColor="#f50a0a" />
+
+</LinearLayout>
