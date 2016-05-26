@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         //startActivity(i);
         startActivityForResult(i, 2);
     }
+    public void notifyData(){
+        adapter.notifyDataSetChanged();
+    }
 
 }
 

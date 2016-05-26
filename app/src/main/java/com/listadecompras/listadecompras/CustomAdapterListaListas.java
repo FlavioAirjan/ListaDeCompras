@@ -1,13 +1,19 @@
 package com.listadecompras.listadecompras;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.text.InputType;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +36,41 @@ public class CustomAdapterListaListas extends BaseAdapter {
 
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+
+
+    private void makeDialog(int position){
+        final int pos=position;
+        String text=pastaListas.getListaListas().get(position).getNome();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);//new ContextThemeWrapper(context, R.style.AlertDialogCustom));
+        builder.setTitle(text);
+
+
+// Set up the input
+        final EditText input = new EditText(context);
+        input.setText(text);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                pastaListas.getListaListas().get(pos).setNome(input.getText().toString());
+                listActivity.notifyData();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     public void addItem(ListaItens item){
@@ -62,13 +103,14 @@ public class CustomAdapterListaListas extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder=new Holder();
+        final Holder holder=new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.list_item_last_posts, null);
 
         holder.name=(TextView) rowView.findViewById(R.id.nome_lista);
         holder.name.setText(pastaListas.getListaListas().get(position).getNome());
-
+        //holder.name.setFocusable(false);
+        //holder.name.setClickable(true);
 
         holder.menos=(Button) rowView.findViewById(R.id.btn_menos_lista);
 
@@ -83,7 +125,22 @@ public class CustomAdapterListaListas extends BaseAdapter {
             }
         });
 
-        click = 0;
+
+        rowView.findViewById(R.id.nome_lista).setOnLongClickListener(new View.OnLongClickListener(){
+            public boolean onLongClick(View arg0) {
+                makeDialog(position);
+                return true;
+            }
+        });
+        rowView.findViewById(R.id.nome_lista).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String item = pastaListas.getListaListas().get(position).getNome();//getListItens("NOVA").getListaItens().get(position).getNome();
+                //Toast.makeText(context, item, Toast.LENGTH_LONG).show();
+                listActivity.startActivity(position);
+            }
+        });
+        /*click = 0;
         rowView.findViewById(R.id.nome_lista).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,30 +162,26 @@ public class CustomAdapterListaListas extends BaseAdapter {
 
                 if (click == 1) {
                     //Single click
-                    handler.postDelayed(r, 600);
+                    handler.postDelayed(r, 400);
+
+                    //holder.name.setClickable(true);
                     // TODO Auto-generated method stub
 
                 } else if (click == 2) {
                     //Double click
                     click = 0;
-                    Toast.makeText(context, "Muda o nome", Toast.LENGTH_LONG).show();
+
+                    makeDialog(position);
+                    Toast.makeText(context, "teste", Toast.LENGTH_LONG).show();
+
+
+
 
                 }
 
 
             }
-        });
-
-
-
-        /*rowView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
-            }
         });*/
-
 
 
         return rowView;

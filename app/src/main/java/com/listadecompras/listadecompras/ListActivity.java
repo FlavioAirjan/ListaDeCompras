@@ -32,7 +32,9 @@ public class ListActivity extends AppCompatActivity {
     private static LayoutInflater inflater=null;
     int position;
 
-
+    public void notifyData(){
+        adapter.notifyDataSetChanged();
+    }
     /**
      * Called when the activity is first created.
      */

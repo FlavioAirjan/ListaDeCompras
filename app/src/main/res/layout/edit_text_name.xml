@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.listadecompras.listadecompras.MainActivity"
+    android:id = "@+id/container">
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:text="List Name"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_gravity="center" />
+</FrameLayout>

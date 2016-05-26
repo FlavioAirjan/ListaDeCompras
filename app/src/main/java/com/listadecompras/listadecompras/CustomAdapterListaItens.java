@@ -1,11 +1,16 @@
 package com.listadecompras.listadecompras;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Handler;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +21,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
     ListaItens listaItens;
     ListActivity listActivity;
     Context context;
+    int click;
 
     private static LayoutInflater inflater=null;
 
@@ -31,6 +37,40 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
     public void addItem(Item item){
         listaItens.AddItem(item);
+    }
+
+
+    private void makeDialog(int position){
+        final int pos=position;
+        String text=listaItens.getListaItens().get(position).getNome();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);//new ContextThemeWrapper(context, R.style.AlertDialogCustom));
+        builder.setTitle(text);
+
+
+// Set up the input
+        final EditText input = new EditText(context);
+        input.setText(text);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                listaItens.getListaItens().get(pos).setNome(input.getText().toString());
+                listActivity.notifyData();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override
@@ -84,13 +124,30 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             }
         });
 
-        rowView.findViewById(R.id.nomeItem).setOnClickListener(new OnClickListener() {
+        /*rowView.findViewById(R.id.nomeItem).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Toast.makeText(context, "Iem: "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
             }
+        });*/
+
+
+
+        rowView.findViewById(R.id.nomeItem).setOnLongClickListener(new View.OnLongClickListener(){
+            public boolean onLongClick(View arg0) {
+                makeDialog(position);
+                return true;
+            }
         });
+        rowView.findViewById(R.id.nomeItem).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
 
         rowView.findViewById(R.id.quantItem).setOnClickListener(new OnClickListener() {
             @Override

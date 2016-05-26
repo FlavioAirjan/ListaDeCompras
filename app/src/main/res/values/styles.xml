@@ -8,4 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AlertDialogCustom">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+        <item name="android:textColor">#0d47a1</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:bottomBright">#e3f2fd</item>
+        <item name="android:bottomDark">#e3f2fd</item>
+        <item name="android:bottomMedium">#e3f2fd</item>
+        <item name="android:centerBright">#e3f2fd</item>
+        <item name="android:centerDark">#e3f2fd</item>
+        <item name="android:centerMedium">#e3f2fd</item>
+        <item name="android:fullBright">#42a5f5</item>
+        <item name="android:fullDark">#42a5f5</item>
+        <item name="android:topBright">#42a5f5</item>
+        <item name="android:topDark">#42a5f5</item>
+    </style>
+
 </resources>
