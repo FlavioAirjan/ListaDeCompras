@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         for (int i = 0; i < 10; i++) {
-            pastaLista.getListItens("Primeira Lista").AddItem(new Item("Item: " + String.valueOf(i), i + 1, "un"));
+            pastaLista.getListItens("Primeira Lista").AddItem(new Item("Item: " + String.valueOf(i), i + 1, "Un"));
 
         }
 

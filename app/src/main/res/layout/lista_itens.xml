@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="6dp" >
+    android:layout_height="wrap_content">
 
 
     <TextView
         android:id="@+id/nomeItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1.73"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_weight="2.49"
         android:ellipsize="end"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:gravity="start|center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignTop="@+id/quantItem"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/tipoItem" />
+
 
     <TextView
         android:id="@+id/tipoItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="0.73"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
         android:ellipsize="end"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/quantItem" />
 
     <TextView
         android:id="@+id/quantItem"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="0.67"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
         android:ellipsize="end"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:gravity="start|center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_toStartOf="@+id/btn_menos" />
+
 
     <Button
         android:id="@+id/btn_menos"
-        android:layout_width="49dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_width="41dp"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:text="-"
-        android:textColor="#f50a0a" />
+        android:textColor="#f50a0a"
+        android:layout_alignParentEnd="true" />
 
-</LinearLayout>
+</RelativeLayout>

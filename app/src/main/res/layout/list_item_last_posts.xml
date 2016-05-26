@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/btn_menos_lista"
-        android:layout_width="49dp"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="-"

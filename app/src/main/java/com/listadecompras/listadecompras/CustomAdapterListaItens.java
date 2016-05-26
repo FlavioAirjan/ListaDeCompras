@@ -40,27 +40,78 @@ public class CustomAdapterListaItens  extends BaseAdapter{
     }
 
 
-    private void makeDialog(int position){
+    private void makeDialog(int position,String tipo){
         final int pos=position;
-        String text=listaItens.getListaItens().get(position).getNome();
+        final String tip=tipo;
+        final String result;
+        boolean dialog=false;
+        //String text=tipo;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);//new ContextThemeWrapper(context, R.style.AlertDialogCustom));
-        builder.setTitle(text);
+        builder.setTitle(tip);
 
-
-// Set up the input
         final EditText input = new EditText(context);
-        input.setText(text);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
-        builder.setView(input);
+
+        switch (tip) {
+            case "Nome": // Set up the input
+                input.setText(listaItens.getListaItens().get(pos).getNome());
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                builder.setView(input);
+                dialog=true;
+                break;
+            case "Quantidade":// Set up the input
+                input.setText(String.valueOf(listaItens.getListaItens().get(pos).getQuantidade()));
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_NUMBER);
+                builder.setView(input);
+                dialog=true;
+                break;
+            case "Tipo":// Set up the input
+                //input.setText(String.valueOf(listaItens.getListaItens().get(pos).getQuantidade()));
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                String[] types = {"Un", "Kg"};
+                builder.setItems(types,  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                        switch(which){
+                            case 0:
+                                listaItens.getListaItens().get(pos).setTipo(true);
+                                break;
+                            case 1:
+                                listaItens.getListaItens().get(pos).setTipo(false);
+                                break;
+                        }
+                        listActivity.notifyData();
+                    }
+
+                });
+
+                builder.show();
+                break;
+
+        }
+
 
 // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                listaItens.getListaItens().get(pos).setNome(input.getText().toString());
-                listActivity.notifyData();
+                switch (tip) {
+                    case "Nome": listaItens.getListaItens().get(pos).setNome(input.getText().toString());
+                        listActivity.notifyData();
+                        break;
+                    case "Quantidade": listaItens.getListaItens().get(pos).setQuantidade(Float.valueOf(input.getText().toString()));
+                        listActivity.notifyData();
+                        break;
+
+                }
+                /*makeChange(input.getText().toString(),pos,tip);
+                //listaItens.getListaItens().get(pos).setNome(input.getText().toString());
+                listActivity.notifyData();*/
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -69,8 +120,9 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                 dialog.cancel();
             }
         });
-
-        builder.show();
+        if(dialog) {
+            builder.show();
+        }
     }
 
     @Override
@@ -114,6 +166,9 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
         holder.menos=(Button) rowView.findViewById(R.id.btn_menos);
 
+
+
+
         rowView.findViewById(R.id.btn_menos).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,26 +189,26 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
 
 
-        rowView.findViewById(R.id.nomeItem).setOnLongClickListener(new View.OnLongClickListener(){
+        /*rowView.findViewById(R.id.nomeItem).setOnLongClickListener(new View.OnLongClickListener(){
             public boolean onLongClick(View arg0) {
-                makeDialog(position);
+                makeDialog(position,"Nome");
                 return true;
             }
-        });
+        });*/
+
+
         rowView.findViewById(R.id.nomeItem).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                makeDialog(position,"Nome");
             }
         });
 
-
-
         rowView.findViewById(R.id.quantItem).setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "Quantidade: "+listaItens.getListaItens().get(position).getQuantidade(), Toast.LENGTH_LONG).show();
+                makeDialog(position,"Quantidade");
             }
         });
 
@@ -161,7 +216,8 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "Tipo: "+listaItens.getListaItens().get(position).getTipo(), Toast.LENGTH_LONG).show();
+                makeDialog(position,"Tipo");
+                Toast.makeText(context, "You Clicked "+listaItens.getListaItens().get(position).getTipo(), Toast.LENGTH_LONG).show();
             }
         });
 

@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class Item implements Serializable{
     private String nome;
-    private int quantidade;
+    private float quantidade;
     private String tipo;
     private float preco;
 
@@ -40,11 +40,11 @@ public class Item implements Serializable{
     }
 
     //get_set quantidade
-    public int getQuantidade() {
+    public float getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(float quantidade) {
         this.quantidade = quantidade;
     }
 
