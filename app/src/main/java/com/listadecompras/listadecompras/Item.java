@@ -10,12 +10,23 @@ public class Item implements Serializable{
     private float quantidade;
     private String tipo;
     private float preco;
+    private boolean check;
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
 
     public Item(String nome) {
         this.nome = nome;
         this.quantidade = 0;
         this.tipo = "Un";
         this.preco = 0;
+
+        this.check=false;
     }
 
     public Item(String nome, int quantidade) {
@@ -23,6 +34,7 @@ public class Item implements Serializable{
         this.quantidade = quantidade;
         this.tipo = "Un";
         this.preco = 0;
+        this.check=false;
     }
 
     public Item(String nome, int quantidade, String tipo) {
@@ -30,6 +42,7 @@ public class Item implements Serializable{
         this.quantidade = quantidade;
         this.tipo = tipo;
         this.preco = 0;
+        this.check=false;
     }
 
     public Item(String nome, int quantidade, String tipo, float preco) {
@@ -37,6 +50,7 @@ public class Item implements Serializable{
         this.quantidade = quantidade;
         this.tipo = tipo;
         this.preco = preco;
+        this.check=false;
     }
 
     //get_set quantidade

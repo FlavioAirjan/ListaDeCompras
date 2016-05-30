@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Handler;
 import android.text.InputType;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -97,20 +99,20 @@ public class CustomAdapterListaListas extends BaseAdapter {
 
     public class Holder
     {
-        TextView name;
+        EditText name;
         Button menos;
     }
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         final Holder holder=new Holder();
-        View rowView;
+        final View rowView;
         rowView = inflater.inflate(R.layout.list_item_last_posts, null);
 
-        holder.name=(TextView) rowView.findViewById(R.id.nome_lista);
+        holder.name=(EditText) rowView.findViewById(R.id.nome_lista);
         holder.name.setText(pastaListas.getListaListas().get(position).getNome());
-        //holder.name.setFocusable(false);
-        //holder.name.setClickable(true);
+        holder.name.setFocusableInTouchMode(false);
+        holder.name.setClickable(true);
 
         holder.menos=(Button) rowView.findViewById(R.id.btn_menos_lista);
 
@@ -127,17 +129,59 @@ public class CustomAdapterListaListas extends BaseAdapter {
 
 
         rowView.findViewById(R.id.nome_lista).setOnLongClickListener(new View.OnLongClickListener(){
+
             public boolean onLongClick(View arg0) {
-                makeDialog(position);
+                //makeDialog(position);
+                //holder.name.findViewById(R.id.nome_lista).setFocusable(true);
+                //holder.name.findViewById(R.id.nome_lista).setClickable(false);
+                holder.name.setFocusableInTouchMode(true);
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                //holder.name.setPressed(true);
+                //holder.name.findViewById(R.id.nome_lista).setPressed(true);
+               // holder.name.findViewById(R.id.nome_lista).isInEditMode();
+
                 return true;
             }
         });
+
+
+        ((EditText) rowView.findViewById(R.id.nome_lista)).setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+
+                            // the user is done typing.
+                            pastaListas.getListaListas().get(position).setNome(v.getEditableText().toString());
+                            listActivity.notifyData();
+                            holder.name.setFocusableInTouchMode(false);
+                            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(rowView.getWindowToken(),0);
+                            //holder.name.findViewById(R.id.nome_lista).setClickable(true);
+                            return true; // consume.
+
+
+                        }
+                        return false;
+
+                    }
+                });
+
+
+
         rowView.findViewById(R.id.nome_lista).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //String item = pastaListas.getListaListas().get(position).getNome();//getListItens("NOVA").getListaItens().get(position).getNome();
                 //Toast.makeText(context, item, Toast.LENGTH_LONG).show();
-                listActivity.startActivity(position);
+                //holder.name.findViewById(R.id.nome_lista).setFocusable(true);
+                if(holder.name.isFocusableInTouchMode()) {
+
+                }else{
+                    listActivity.startActivity(position);
+                }
             }
         });
         /*click = 0;

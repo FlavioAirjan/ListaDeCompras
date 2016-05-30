@@ -3,13 +3,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -145,24 +151,29 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
     public class Holder
     {
-        TextView name;
-        TextView quantidade;
+        EditText name;
+        EditText quantidade;
         TextView tipo;
         Button menos;
+        CheckBox checkBox;
     }
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position,final View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder=new Holder();
-        View rowView;
+        final Holder holder=new Holder();
+        final View rowView;
         rowView = inflater.inflate(R.layout.lista_itens, null);
 
-        holder.name=(TextView) rowView.findViewById(R.id.nomeItem);
-        holder.quantidade=(TextView) rowView.findViewById(R.id.quantItem);
+        holder.name=(EditText) rowView.findViewById(R.id.nomeItem);
+        holder.quantidade=(EditText) rowView.findViewById(R.id.quantItem);
         holder.tipo=(TextView) rowView.findViewById(R.id.tipoItem);
+        holder.checkBox=(CheckBox) rowView.findViewById(R.id.checkItem);
+
         holder.name.setText(listaItens.getListaItens().get(position).getNome());
         holder.quantidade.setText(String.valueOf(listaItens.getListaItens().get(position).getQuantidade()));
         holder.tipo.setText(listaItens.getListaItens().get(position).getTipo());
+        holder.checkBox.setChecked(listaItens.getListaItens().get(position).isCheck());
+
 
         holder.menos=(Button) rowView.findViewById(R.id.btn_menos);
 
@@ -196,21 +207,106 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             }
         });*/
 
+        rowView.findViewById(R.id.checkItem).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!listaItens.getListaItens().get(position).isCheck()) {
+                    listaItens.getListaItens().get(position).setCheck(true);
+                    Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
+                }else{
+                    listaItens.getListaItens().get(position).setCheck(false);
+                    Toast.makeText(context, "You Unchecked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
+                }
+
+                listActivity.notifyData();
+            }
+        });
+
+
+
+        ((EditText) rowView.findViewById(R.id.nomeItem)).setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+
+                    // the user is done typing.
+                    listaItens.getListaItens().get(position).setNome(v.getEditableText().toString());
+                    listActivity.notifyData();
+
+                    if (rowView.hasFocus()) {
+                        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(rowView.getWindowToken(), 0);
+                    }
+                        holder.name.setFocusable(false);
+                    return true; // consume.
+
+
+                }
+                return false;
+
+            }
+        });
 
         rowView.findViewById(R.id.nomeItem).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeDialog(position,"Nome");
+               // makeDialog(position,"Nome");
+                holder.name.setFocusable(true); //setFocusableInTouchMode(true);
+
+               // InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+              //  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
             }
         });
 
-        rowView.findViewById(R.id.quantItem).setOnClickListener(new OnClickListener() {
+        ((EditText) rowView.findViewById(R.id.quantItem)).setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+
+                            // the user is done typing.
+                            listaItens.getListaItens().get(position).setQuantidade(Float.valueOf(v.getEditableText().toString()));
+                            listActivity.notifyData();
+
+                            if (rowView.hasFocus()) {
+                                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(rowView.getWindowToken(), 0);
+                            }
+                            holder.quantidade.setFocusable(false);
+                            return true; // consume.
+
+
+                        }
+                        return false;
+
+                    }
+                });
+
+        rowView.findViewById(R.id.quantItem).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // makeDialog(position,"Nome");
+                holder.quantidade.setFocusable(true); //setFocusableInTouchMode(true);
+
+                // InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                //  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+            }
+        });
+
+
+
+        /*rowView.findViewById(R.id.quantItem).setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 makeDialog(position,"Quantidade");
             }
-        });
+        });*/
 
         rowView.findViewById(R.id.tipoItem).setOnClickListener(new OnClickListener() {
             @Override

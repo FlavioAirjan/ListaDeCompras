@@ -10,14 +10,14 @@
         android:layout_width="fill_parent"
         android:layout_height="75dip"
         android:gravity="center"
-        android:layout_marginLeft="100dp">
+        android:layout_marginLeft="75dp">
     </TextView>
 
     <ListView
         android:id="@+id/list_itens"
         android:layout_width="wrap_content"
         android:layout_height="366dp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="0dp"
         android:layout_gravity="right|center_vertical"></ListView>
 
     <Button
@@ -31,7 +31,7 @@
 
     <Button
         android:id="@+id/menu_inicial"
-        android:layout_width="100dp"
+        android:layout_width="75dp"
         android:layout_height="75dp"
         android:text="Listas"
         android:layout_gravity="left|top"

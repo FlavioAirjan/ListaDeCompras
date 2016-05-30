@@ -6,10 +6,10 @@
     android:padding="6dp" >
 
 
-    <TextView
+    <EditText
         android:id="@+id/nome_lista"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1.73"
         android:ellipsize="end"
@@ -22,7 +22,7 @@
     <Button
         android:id="@+id/btn_menos_lista"
         android:layout_width="75dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:text="-"
         android:textColor="#f50a0a" />

@@ -11,7 +11,7 @@ android:id = "@+id/container">
     android:id="@+id/list_last_posts"
     android:layout_width="match_parent"
     android:layout_height="460dp"
-        android:layout_marginLeft="100dp"></ListView>
+        android:layout_marginLeft="75dp"></ListView>
 
     <Button
         android:id="@+id/add_list_button"
@@ -24,7 +24,7 @@ android:id = "@+id/container">
 
     <Button
         android:id="@+id/menu_inicial"
-        android:layout_width="100dp"
+        android:layout_width="75dp"
         android:layout_height="75dp"
         android:text="Listas"
         android:layout_gravity="left|top"
