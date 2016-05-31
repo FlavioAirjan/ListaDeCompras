@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.text.InputType;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,37 +45,54 @@ public class CustomAdapterListaListas extends BaseAdapter {
 
 
 
-    private void makeDialog(int position){
-        final int pos=position;
-        String text=pastaListas.getListaListas().get(position).getNome();
+    public void makeBoolDialog(Context context, String title,String text,String posit,String negat,final int position){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);//new ContextThemeWrapper(context, R.style.AlertDialogCustom));
-        builder.setTitle(text);
 
+        LayoutInflater li =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = li.inflate(R.layout.alert_dialog, null);
+        builder.setView(view);
 
-// Set up the input
-        final EditText input = new EditText(context);
+        TextView input = (TextView)view.findViewById(R.id.text);
+        input.setGravity(Gravity.CENTER);
         input.setText(text);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
-        builder.setView(input);
+
+
+        TextView title_edited = new TextView(context);
+// You Can Customise your Title here
+        title_edited.setText(title);
+        title_edited.setBackgroundColor(Color.DKGRAY);
+        title_edited.setPadding(10, 10, 10, 10);
+        title_edited.setGravity(Gravity.CENTER);
+        title_edited.setTextColor(Color.WHITE);
+        title_edited.setTextSize(20);
+
+        builder.setCustomTitle(title_edited);
+
+
+
 
 // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(posit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                pastaListas.getListaListas().get(pos).setNome(input.getText().toString());
-                listActivity.notifyData();
+                //return true;
+                pastaListas.getListaListas().remove(position);
+                listActivity.removeItem(position);
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+        builder.setNegativeButton(negat, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
+        final AlertDialog dialog = builder.create();
 
-        builder.show();
+
+        dialog.show();
+
     }
 
     public void addItem(ListaItens item){
@@ -97,6 +117,7 @@ public class CustomAdapterListaListas extends BaseAdapter {
         return position;
     }
 
+
     public class Holder
     {
         EditText name;
@@ -120,10 +141,7 @@ public class CustomAdapterListaListas extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "Iem: "+pastaListas.getListaListas().get(position).getNome(), Toast.LENGTH_LONG).show();
-                pastaListas.getListaListas().remove(position);
-                listActivity.removeItem(position);
-
+                makeBoolDialog(context, "Remove","Você quer deletar a lista '" +pastaListas.getListaListas().get(position).getNome()+"'?","Sim","Não",position);
             }
         });
 

@@ -2,10 +2,12 @@ package com.listadecompras.listadecompras;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -131,6 +133,55 @@ public class CustomAdapterListaItens  extends BaseAdapter{
         }
     }
 
+
+    public void makeBoolDialog(Context context, String title,String text,String posit,String negat,final int position){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);//new ContextThemeWrapper(context, R.style.AlertDialogCustom));
+
+        LayoutInflater li =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = li.inflate(R.layout.alert_dialog, null);
+        builder.setView(view);
+
+        TextView input = (TextView)view.findViewById(R.id.text);
+        input.setGravity(Gravity.CENTER);
+        input.setText(text);
+
+
+        TextView title_edited = new TextView(context);
+// You Can Customise your Title here
+        title_edited.setText(title);
+        title_edited.setBackgroundColor(Color.DKGRAY);
+        title_edited.setPadding(10, 10, 10, 10);
+        title_edited.setGravity(Gravity.CENTER);
+        title_edited.setTextColor(Color.WHITE);
+        title_edited.setTextSize(20);
+
+        builder.setCustomTitle(title_edited);
+
+
+// Set up the buttons
+        builder.setPositiveButton(posit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //return true;
+                listaItens.getListaItens().remove(position);
+                listActivity.removeItem(position);
+            }
+        });
+        builder.setNegativeButton(negat, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+
+
+        dialog.show();
+
+    }
+
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -184,28 +235,10 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "Iem: "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
-                listaItens.getListaItens().remove(position);
-                listActivity.removeItem(position);
+                makeBoolDialog(context,"Remove","Você quer deletar o item '" +listaItens.getListaItens().get(position).getNome()+"'?","Sim","Não",position);
             }
         });
 
-        /*rowView.findViewById(R.id.nomeItem).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "Iem: "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
-            }
-        });*/
-
-
-
-        /*rowView.findViewById(R.id.nomeItem).setOnLongClickListener(new View.OnLongClickListener(){
-            public boolean onLongClick(View arg0) {
-                makeDialog(position,"Nome");
-                return true;
-            }
-        });*/
 
         rowView.findViewById(R.id.checkItem).setOnClickListener(new View.OnClickListener() {
             @Override
