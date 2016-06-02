@@ -2,14 +2,17 @@ package com.listadecompras.listadecompras;
 
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lv;
     CustomAdapterListaListas adapter;
     int click;
+    private DbController database;
 
 
     public void addContext(Context context) {
@@ -52,15 +56,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void removeItem(int pos){
+   /* protected void addListaBD(String text) {
+       // ContentValues values = new ContentValues();
+        //values.put(DataProvider.Lista.NOMELISTA, text);
+
+        getContentResolver().insert(
+                DataProvider.Lista.CONTENT_URI, values);
+    }*/
+
+    public void removeItem(final int pos){
         runOnUiThread(new Runnable() {
             public void run() {
-                adapter.notifyDataSetChanged();
+                if(pastaLista.getListaListas().size()>pos) {
+                    for(int i=0;i<pastaLista.getListaListas().get(pos).getListaItens().size();i++){
+                        database.deletaItem(pastaLista.getListaListas().get(pos).getListaItens().get(i).getId());
+                    }
+                    database.deletaLista(pastaLista.getListaListas().get(pos).getKey());
+                    pastaLista.getListaListas().remove(pos);
+                    adapter.notifyDataSetChanged();
+                }
+
             }
         });
 
 
     }
+    public void modifyData(int position,String name){
+        pastaLista.getListaListas().get(position).setNome(name);
+        database.alteraLista(pastaLista.getListaListas().get(position).getKey(),name);
+        notifyData();
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -75,6 +102,52 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }//onActivityResult
+    public void povoaItens(long fkey,ListaItens itens){
+        Cursor cursor=database.carregaItem(fkey);
+        String name;
+        long key;
+        String tipo;
+        int check;
+        float quant;
+
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            name = cursor.getString(cursor.getColumnIndex(database.getNomeItem()));
+            key=cursor.getLong(cursor.getColumnIndex(database.getIdItem()));
+            tipo=cursor.getString(cursor.getColumnIndex(database.getTipoItem()));
+            check=cursor.getInt(cursor.getColumnIndex(database.getCheckItem()));
+            quant=cursor.getLong(cursor.getColumnIndex(database.getQuantItem()));
+            itens.AddItem(new Item(name, quant, tipo,check,key));
+        }
+        cursor.close();
+
+
+
+
+    }
+
+
+
+
+    private void povoaClasses(){
+        Cursor cursor=database.carregaLista();
+        String name;
+        long key;
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                name = cursor.getString(cursor.getColumnIndex(database.getNomeLista()));
+                key=cursor.getLong(cursor.getColumnIndex(database.getIdLista()));
+                pastaLista.addLista(name, key);
+                povoaItens(key,pastaLista.getListItens(key));
+
+            }
+        cursor.close();
+
+
+
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +155,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
         pastaLista = new PastaListas();
+        database= new DbController(context);
+        povoaClasses();
+
+       // pastaLista.addLista("Primeira Lista");
 
 
-
-        pastaLista.addLista("Primeira Lista");
-
-
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 10; i++) {
             pastaLista.getListItens("Primeira Lista").AddItem(new Item("Item: " + String.valueOf(i), i + 1, "Un"));
 
-        }
+        }*/
+
 
         final Button button = (Button) findViewById(R.id.add_list_button);
 
@@ -105,7 +179,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                     Toast.makeText(context, "Add Lista", Toast.LENGTH_LONG).show();
-                    adapter.addItem(new ListaItens("outra Lista"));
+
+                    adapter.addItem(new ListaItens("outra Lista",database.insereLista("outra Lista")));
+                    //addListaBD("outra Lista");
                     adapter.notifyDataSetChanged();
 
 

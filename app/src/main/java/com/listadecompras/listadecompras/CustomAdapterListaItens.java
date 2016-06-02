@@ -86,12 +86,13 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                         dialog.dismiss();
                         switch(which){
                             case 0:
-                                listaItens.getListaItens().get(pos).setTipo(true);
+                                listActivity.modifyTipo(pos,"Un");
                                 break;
                             case 1:
-                                listaItens.getListaItens().get(pos).setTipo(false);
+                                listActivity.modifyTipo(pos,"Kg");
                                 break;
                         }
+
                         listActivity.notifyData();
                     }
 
@@ -164,7 +165,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //return true;
-                listaItens.getListaItens().remove(position);
+
                 listActivity.removeItem(position);
             }
         });
@@ -244,10 +245,11 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 if(!listaItens.getListaItens().get(position).isCheck()) {
-                    listaItens.getListaItens().get(position).setCheck(true);
+                    listActivity.modifyCheck(position,1);
+
                     Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }else{
-                    listaItens.getListaItens().get(position).setCheck(false);
+                    listActivity.modifyCheck(position,0);
                     Toast.makeText(context, "You Unchecked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }
 
@@ -265,14 +267,19 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                 if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
 
                     // the user is done typing.
-                    listaItens.getListaItens().get(position).setNome(v.getEditableText().toString());
-                    listActivity.notifyData();
+
+
+                    listActivity.modifyName(v.getEditableText().toString(),position);
 
                     if (rowView.hasFocus()) {
                         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(rowView.getWindowToken(), 0);
                     }
                         holder.name.setFocusable(false);
+                    holder.checkBox.setClickable(true);
+                    holder.menos.setClickable(true);
+                    holder.quantidade.setClickable(true);
+                    holder.tipo.setClickable(true);
                     return true; // consume.
 
 
@@ -287,6 +294,10 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             public void onClick(View v) {
                // makeDialog(position,"Nome");
                 holder.name.setFocusable(true); //setFocusableInTouchMode(true);
+                holder.checkBox.setClickable(false);
+                holder.menos.setClickable(false);
+                holder.quantidade.setClickable(false);
+                holder.tipo.setClickable(false);
 
                // InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
               //  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
@@ -302,14 +313,18 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
 
                             // the user is done typing.
-                            listaItens.getListaItens().get(position).setQuantidade(Float.valueOf(v.getEditableText().toString()));
-                            listActivity.notifyData();
+
+                            listActivity.modifyQuant(position,Float.valueOf(v.getEditableText().toString()));
 
                             if (rowView.hasFocus()) {
                                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(rowView.getWindowToken(), 0);
                             }
                             holder.quantidade.setFocusable(false);
+                            holder.checkBox.setClickable(true);
+                            holder.menos.setClickable(true);
+                            holder.name.setClickable(true);
+                            holder.tipo.setClickable(true);
                             return true; // consume.
 
 
@@ -324,7 +339,10 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             public void onClick(View v) {
                 // makeDialog(position,"Nome");
                 holder.quantidade.setFocusable(true); //setFocusableInTouchMode(true);
-
+                holder.checkBox.setClickable(false);
+                holder.menos.setClickable(false);
+                holder.name.setClickable(false);
+                holder.tipo.setClickable(false);
                 // InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 //  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
@@ -346,7 +364,8 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 makeDialog(position,"Tipo");
-                Toast.makeText(context, "You Clicked "+listaItens.getListaItens().get(position).getTipo(), Toast.LENGTH_LONG).show();
+
+               // Toast.makeText(context, "You Clicked "+listaItens.getListaItens().get(position).getTipo(), Toast.LENGTH_LONG).show();
             }
         });
 

@@ -12,10 +12,20 @@ public class ListaItens implements Serializable {
 
     private List<Item> listaItens;
     private String nome;
+    private long key;
     private float total;
 
 
+    public long getKey() {
+        return key;
+    }
+
+    public void setKey(long key) {
+        this.key = key;
+    }
+
     public void sumTotal() {
+
         total=0;
         for (int i=0;i<this.listaItens.size();i++) {
             total += this.listaItens.get(i).getPreco();
@@ -47,11 +57,13 @@ public class ListaItens implements Serializable {
         this.listaItens = listaItens;
     }
 
-    public ListaItens(String nome) {
+    public ListaItens(String nome,long key) {
         this.nome=nome;
+        this.key=key;
         this.total=0;
-            this.listaItens = new ArrayList<>();
+        this.listaItens = new ArrayList<>();
     }
+
 
     public boolean AddItem(Item newItem){
         this.listaItens.add(newItem);

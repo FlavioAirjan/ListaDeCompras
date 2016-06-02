@@ -69,15 +69,11 @@ public class CustomAdapterListaListas extends BaseAdapter {
 
         builder.setCustomTitle(title_edited);
 
-
-
-
 // Set up the buttons
         builder.setPositiveButton(posit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //return true;
-                pastaListas.getListaListas().remove(position);
                 listActivity.removeItem(position);
             }
         });
@@ -97,6 +93,9 @@ public class CustomAdapterListaListas extends BaseAdapter {
 
     public void addItem(ListaItens item){
         pastaListas.addListaIten(item);
+        //DbController crud = new DbController(context);
+        //long id=crud.insereLista(item.getNome());
+        //item.setKey(id);
     }
 
     @Override
@@ -141,7 +140,9 @@ public class CustomAdapterListaListas extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                makeBoolDialog(context, "Remove","Você quer deletar a lista '" +pastaListas.getListaListas().get(position).getNome()+"'?","Sim","Não",position);
+                if(pastaListas.getListaListas().size()>position) {
+                    makeBoolDialog(context, "Remove", "Você quer deletar a lista '" + pastaListas.getListaListas().get(position).getNome() + "'?", "Sim", "Não", position);
+                }
             }
         });
 
@@ -153,6 +154,8 @@ public class CustomAdapterListaListas extends BaseAdapter {
                 //holder.name.findViewById(R.id.nome_lista).setFocusable(true);
                 //holder.name.findViewById(R.id.nome_lista).setClickable(false);
                 holder.name.setFocusableInTouchMode(true);
+                holder.menos.setClickable(false);
+
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
                 //holder.name.setPressed(true);
@@ -172,9 +175,9 @@ public class CustomAdapterListaListas extends BaseAdapter {
                         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
 
                             // the user is done typing.
-                            pastaListas.getListaListas().get(position).setNome(v.getEditableText().toString());
-                            listActivity.notifyData();
+                            listActivity.modifyData(position,v.getEditableText().toString());
                             holder.name.setFocusableInTouchMode(false);
+                            holder.menos.setClickable(true);
                             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(rowView.getWindowToken(),0);
                             //holder.name.findViewById(R.id.nome_lista).setClickable(true);

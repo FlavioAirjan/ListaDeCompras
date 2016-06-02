@@ -26,8 +26,8 @@ public class PastaListas implements Serializable {
         this.listaListas = listaListas;
     }
 
-    public void addLista(String nome){
-        this.listaListas.add(new ListaItens(nome));
+    public void addLista(String nome,long key){
+        this.listaListas.add(new ListaItens(nome,key));
     }
 
     public void removeLista(ListaItens lista){
@@ -43,8 +43,8 @@ public class PastaListas implements Serializable {
         this.listaListas.add(item);
     }
 
-    public ListaItens getListItens(String nome){
-        int index=getIndexByName(nome);
+    public ListaItens getListItens(long key){
+        int index=getIndexByName(key);
         if(index>=0) {
             return this.listaListas.get(index);
         }else{
@@ -52,11 +52,11 @@ public class PastaListas implements Serializable {
         }
     }
 
-    private int getIndexByName(String nome){
+    private int getIndexByName(long key){
         boolean find=false;
         int index=-1;
         for(int i=0;(i<this.listaListas.size())&&find==false;i++){
-            if(this.listaListas.get(i).getNome().equals(nome)) {
+            if(this.listaListas.get(i).getKey()==key) {
                 index = i;
                 find = true;
             }
