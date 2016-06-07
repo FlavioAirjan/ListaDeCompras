@@ -166,12 +166,14 @@ public class ListActivity extends AppCompatActivity {
 
                 //Se o item deletado estava checked
                 if(listaItens.getListaItens().get(pos).isCheck()){
+                    listaItens.getListaItens().remove(pos);
                     listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
                     database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked());
+                }else{
+                    listaItens.getListaItens().remove(pos);
                     updateNumItens();
                 }
 
-                listaItens.getListaItens().remove(pos);
                 adapter.notifyDataSetChanged();
             }
         });

@@ -20,7 +20,7 @@
     <EditText
         android:layout_marginLeft="75dp"
         android:id="@+id/nomeItem"
-        android:layout_width="150dp"
+        android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:ellipsize="end"
         android:paddingLeft="6dp"
