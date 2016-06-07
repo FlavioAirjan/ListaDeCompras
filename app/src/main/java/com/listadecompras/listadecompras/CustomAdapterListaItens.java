@@ -247,10 +247,10 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                 if(!listaItens.getListaItens().get(position).isCheck()) {
                     listActivity.modifyCheck(position,1);
 
-                    Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
+                   // Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }else{
                     listActivity.modifyCheck(position,0);
-                    Toast.makeText(context, "You Unchecked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
+                   // Toast.makeText(context, "You Unchecked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }
 
                 listActivity.notifyData();

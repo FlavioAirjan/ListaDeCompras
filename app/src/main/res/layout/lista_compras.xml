@@ -6,12 +6,14 @@
     tools:context="com.listadecompras.listadecompras.ListActivity"
     android:id = "@+id/container">
 
-    <TextView android:id="@+id/list_text_view_name"
-        android:layout_width="fill_parent"
+    <TextView android:id="@+id/list_item_number"
+        android:layout_width="60dp"
         android:layout_height="75dip"
         android:gravity="center"
+        android:textSize="26sp"
         android:layout_marginLeft="75dp">
     </TextView>
+
 
     <ListView
         android:id="@+id/list_itens"
@@ -25,8 +27,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Add"
-        android:layout_gravity="right|bottom"
-        android:layout_marginLeft="100dp">
+        android:layout_gravity="right|bottom">
     </Button>
 
     <Button
@@ -38,6 +39,15 @@
         android:layout_marginLeft="0dp"
         android:textAlignment="inherit">
     </Button>
+
+    <TextView android:id="@+id/list_text_view_name"
+        android:layout_width="fill_parent"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:textSize="36sp"
+        android:layout_marginLeft="135dp"
+        android:layout_gravity="right|top">
+    </TextView>
 
 
 </FrameLayout>

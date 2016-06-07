@@ -44,17 +44,6 @@ public class MainActivity extends AppCompatActivity {
         this.context = context;
     }
 
-    public void addItens(List<String> list, ListaItens listaDeItens) {
-        for (int i = 0; i < listaDeItens.getListaItens().size(); i++) {
-            list.add(listaDeItens.getListaItens().get(i).getNome());
-        }
-    }
-
-    public void addListas(List<String> list, PastaListas listaDeLista) {
-        for (int i = 0; i < listaDeLista.getListaListas().size(); i++) {
-            list.add(listaDeLista.getListaListas().get(i).getNome());
-        }
-    }
 
    /* protected void addListaBD(String text) {
        // ContentValues values = new ContentValues();
@@ -83,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void modifyData(int position,String name){
         pastaLista.getListaListas().get(position).setNome(name);
-        database.alteraLista(pastaLista.getListaListas().get(position).getKey(),name);
+        database.alteraLista(pastaLista.getListaListas().get(position).getKey(),name,pastaLista.getListaListas().get(position).getNumItensChecked());
         notifyData();
     }
 
@@ -133,11 +122,13 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor=database.carregaLista();
         String name;
         long key;
+        int checked;
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 name = cursor.getString(cursor.getColumnIndex(database.getNomeLista()));
                 key=cursor.getLong(cursor.getColumnIndex(database.getIdLista()));
-                pastaLista.addLista(name, key);
+                checked=cursor.getInt(cursor.getColumnIndex(database.getCheckedItens()));
+                pastaLista.addLista(name, key,checked);
                 povoaItens(key,pastaLista.getListItens(key));
 
             }
@@ -180,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(context, "Add Lista", Toast.LENGTH_LONG).show();
 
-                    adapter.addItem(new ListaItens("outra Lista",database.insereLista("outra Lista")));
+                    adapter.addItem(new ListaItens("Nova Lista",database.insereLista("Nova Lista",0),0));
                     //addListaBD("outra Lista");
                     adapter.notifyDataSetChanged();
 

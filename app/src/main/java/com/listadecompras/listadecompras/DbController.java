@@ -18,13 +18,14 @@ public class DbController {
     }
 
     //insere lista e retorna o id no objeto inserido
-    public long insereLista(String nome){
+    public long insereLista(String nome,int checked){
         ContentValues valores;
         long resultado;
 
         db = banco.getWritableDatabase();
         valores = new ContentValues();
         valores.put(CriaBanco.getNomeLista(), nome);
+        valores.put(CriaBanco.getCheckedItens(), checked);
 
         resultado = db.insert(CriaBanco.getTabelaLista(), null, valores);
 
@@ -37,7 +38,7 @@ public class DbController {
 
     }
 
-    public void alteraLista(long id, String nome){
+    public void alteraLista(long id, String nome,int checked){
         ContentValues valores;
         String where;
 
@@ -46,6 +47,7 @@ public class DbController {
         where = CriaBanco.getIdLista() + "=" + id;
         valores = new ContentValues();
         valores.put(CriaBanco.getNomeLista(), nome);
+        valores.put(CriaBanco.getCheckedItens(), checked);
 
         db.update(CriaBanco.getTabelaLista(),valores,where,null);
         db.close();
@@ -108,7 +110,7 @@ public class DbController {
 
     public Cursor carregaLista(){
         Cursor cursor;
-        String[] campos =  {banco.getIdLista(),banco.getNomeLista()};
+        String[] campos =  {banco.getIdLista(),banco.getNomeLista(),banco.getCheckedItens()};
         db = banco.getReadableDatabase();
         cursor = db.query(banco.getTabelaLista(), campos, null, null, null, null, null, null);
 
@@ -175,6 +177,10 @@ public class DbController {
 
     public  String getCheckItem() {
         return banco.getCheckItem();
+    }
+
+    public  String getCheckedItens() {
+        return banco.getCheckedItens();
     }
 
     public int getVERSAO() {

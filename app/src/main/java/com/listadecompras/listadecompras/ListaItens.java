@@ -14,6 +14,8 @@ public class ListaItens implements Serializable {
     private String nome;
     private long key;
     private float total;
+    private int numItensChecked;
+
 
 
     public long getKey() {
@@ -57,9 +59,10 @@ public class ListaItens implements Serializable {
         this.listaItens = listaItens;
     }
 
-    public ListaItens(String nome,long key) {
+    public ListaItens(String nome,long key,int checked) {
         this.nome=nome;
         this.key=key;
+        this.numItensChecked=checked;
         this.total=0;
         this.listaItens = new ArrayList<>();
     }
@@ -94,5 +97,13 @@ public class ListaItens implements Serializable {
             return false;
         }*/
         return retorno;
+    }
+
+    public int getNumItensChecked() {
+        return numItensChecked;
+    }
+
+    public void setNumItensChecked(int numItensChecked) {
+        this.numItensChecked = numItensChecked;
     }
 }

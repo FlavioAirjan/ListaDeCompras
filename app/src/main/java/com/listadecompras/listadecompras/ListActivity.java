@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class ListActivity extends AppCompatActivity {
     private static LayoutInflater inflater=null;
     int position;
     private DbController database;
+    private TextView numItens;
 
     public void notifyData(){
         adapter.notifyDataSetChanged();
@@ -74,6 +76,7 @@ public class ListActivity extends AppCompatActivity {
                 //Toast.makeText(context, "Add Item", Toast.LENGTH_LONG).show();
                 long key=database.insereItem("novo","Un",0,0,listaItens.getKey());
                 adapter.addItem(new Item( "novo" , key));
+                updateNumItens();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -93,6 +96,8 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        numItens= (TextView) findViewById(R.id.list_item_number);
+        updateNumItens();//numItens.setText(String.valueOf(listaItens.getListaItens().size()-listaItens.getNumItensChecked()));
 
     }
 
@@ -121,18 +126,36 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void modifyCheck(int pos, int check){
+        //atualiza o db com o item checked
         database.alteraItem(listaItens.getListaItens().get(pos).getId(),
                 listaItens.getKey(),
                 listaItens.getListaItens().get(pos).getNome(),
                 listaItens.getListaItens().get(pos).getTipo(),
                 listaItens.getListaItens().get(pos).getQuantidade(),
                 check);
+
         if(check==1) {
             listaItens.getListaItens().get(pos).setCheck(true);
+            listaItens.setNumItensChecked(listaItens.getNumItensChecked()+1);
         }else{
             listaItens.getListaItens().get(pos).setCheck(false);
+            listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
         }
+
+        //Atualiza o db com a lista com o número checked atualizado
+        database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked());
+        updateNumItens();
         notifyData();
+    }
+
+    //atualiza o textview com o novo valor de itens não checked
+    private void updateNumItens(){
+        if(listaItens.getListaItens().size()-listaItens.getNumItensChecked()>0) {
+            numItens.setTextColor(Color.RED);
+        }else{
+            numItens.setTextColor(Color.GREEN);
+        }
+        numItens.setText(String.valueOf(listaItens.getListaItens().size()-listaItens.getNumItensChecked()));
     }
 
 
@@ -140,6 +163,14 @@ public class ListActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 database.deletaItem(listaItens.getListaItens().get(pos).getId());
+
+                //Se o item deletado estava checked
+                if(listaItens.getListaItens().get(pos).isCheck()){
+                    listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
+                    database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked());
+                    updateNumItens();
+                }
+
                 listaItens.getListaItens().remove(pos);
                 adapter.notifyDataSetChanged();
             }

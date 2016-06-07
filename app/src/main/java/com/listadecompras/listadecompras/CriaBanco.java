@@ -8,11 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Flavio on 02/06/2016.
  */
 public class CriaBanco extends SQLiteOpenHelper {
-    private static final String NOME_BANCO = "listaComprasBanco.db";
+    private static final int VERSAO= 2;
+    private static final String NOME_BANCO = "listaComprasBanco"+String.valueOf(VERSAO)+".db";
 
     private static final String TABELA_LISTA = "lista_itens";
     private static final String ID_LISTA = "lista_id";
     private static final String NOME_LISTA = "nome";
+    private static final String CHECKED_ITENS = "checked_itens";
 
 
 
@@ -24,7 +26,7 @@ public class CriaBanco extends SQLiteOpenHelper {
     private static final String QUANT_ITEM = "quantidade";
     private static final String CHECK_ITEM = "check_item";
 
-    private static final int VERSAO= 1;
+
 
     public CriaBanco(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
@@ -34,7 +36,8 @@ public class CriaBanco extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sqlLista = "CREATE TABLE IF NOT EXISTS "+TABELA_LISTA+" ("
                 + ID_LISTA + " integer primary key autoincrement, "
-                + NOME_LISTA + " text"
+                + NOME_LISTA + " text, "
+                + CHECKED_ITENS+ " integer"
                 +")";
         db.execSQL(sqlLista);
 
@@ -48,15 +51,17 @@ public class CriaBanco extends SQLiteOpenHelper {
                 + " FOREIGN KEY ("+ID_LISTA_FOREIGNKEY+") REFERENCES "+TABELA_LISTA+"("+ID_LISTA+")"
                 +")";
         db.execSQL(sqlItem);
-
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TABELA_ITEM);
-        db.execSQL("DROP TABLE IF EXISTS" + TABELA_LISTA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABELA_ITEM);
+        db.execSQL("DROP TABLE IF EXISTS " + TABELA_LISTA);
         onCreate(db);
+    }
+
+    public static String getCheckedItens() {
+        return CHECKED_ITENS;
     }
 
     public static String getNomeBanco() {
