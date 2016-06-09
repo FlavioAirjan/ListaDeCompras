@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="6dp">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -13,12 +14,14 @@
     <CheckBox
         android:id="@+id/checkItem"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/colorPrimary"/>
     </LinearLayout>
 
 
     <EditText
         android:layout_marginLeft="75dp"
+        android:selectAllOnFocus="true"
         android:id="@+id/nomeItem"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
@@ -48,6 +51,7 @@
 
     <EditText
         android:inputType="number"
+        android:selectAllOnFocus="true"
         android:id="@+id/quantItem"
         android:layout_width="70dp"
         android:layout_height="50dp"
@@ -66,8 +70,7 @@
         android:layout_width="41dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="-"
-        android:textColor="#f50a0a"
+        android:background="@mipmap/ic_delete"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

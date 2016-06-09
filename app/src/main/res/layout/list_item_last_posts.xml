@@ -16,6 +16,7 @@
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:singleLine="true"
+        android:selectAllOnFocus="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -24,7 +25,6 @@
         android:layout_width="75dp"
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
-        android:text="-"
-        android:textColor="#f50a0a" />
+        android:background="@mipmap/ic_delete"/>
 
 </LinearLayout>

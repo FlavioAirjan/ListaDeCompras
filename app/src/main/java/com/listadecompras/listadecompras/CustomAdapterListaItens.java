@@ -45,6 +45,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
     public void addItem(Item item){
         listaItens.AddItem(item);
+
     }
 
 
@@ -246,7 +247,9 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             public void onClick(View v) {
                 if(!listaItens.getListaItens().get(position).isCheck()) {
                     listActivity.modifyCheck(position,1);
-
+                    //rowView.setOpaque(true);
+                    //holder.name.setBackgroundResource(R.drawable.ic_select);
+                    //holder.name.setBackgroundColor(5);
                    // Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }else{
                     listActivity.modifyCheck(position,0);

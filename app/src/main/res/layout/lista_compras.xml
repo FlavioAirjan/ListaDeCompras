@@ -4,15 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.listadecompras.listadecompras.ListActivity"
-    android:id = "@+id/container">
+    android:id = "@+id/container"
+    android:background="@mipmap/ic_paper">
 
     <TextView android:id="@+id/list_item_number"
         android:layout_width="60dp"
         android:layout_height="75dip"
-        android:gravity="center"
+        android:gravity="left|center"
         android:textSize="26sp"
         android:layout_marginLeft="0dp"
-        android:layout_toEndOf="@+id/menu_inicial">
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/add_item_button">
+    </TextView>
+
+    <TextView android:id="@+id/list_restam"
+        android:layout_width="60dp"
+        android:layout_height="75dip"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="Restam: "
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/list_item_number">
     </TextView>
 
 
@@ -23,29 +37,28 @@
         android:layout_marginLeft="0dp"
         android:layout_gravity="right|center_vertical"
         android:layout_above="@+id/add_item_button"
-        android:layout_below="@+id/list_item_number"></ListView>
+        android:layout_below="@+id/menu_inicial"></ListView>
 
     <Button
         android:id="@+id/add_item_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Adicionar novo item"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@mipmap/ic_add"
         android:layout_gravity="right|bottom"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_centerHorizontal="true">
     </Button>
 
     <Button
         android:id="@+id/menu_inicial"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:background="@drawable/ic_back"
+        android:background="@mipmap/ic_backbutton"
         android:layout_gravity="left|top"
         android:layout_marginLeft="0dp"
         android:textAlignment="inherit"
-        android:layout_above="@+id/list_itens"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
     </Button>
 
     <TextView android:id="@+id/list_text_view_name"
@@ -55,7 +68,9 @@
         android:textSize="36sp"
         android:layout_marginLeft="0dp"
         android:layout_gravity="right|top"
-        android:layout_toEndOf="@+id/list_item_number">
+        android:layout_toEndOf="@+id/menu_inicial"
+        android:layout_above="@+id/list_itens"
+        android:layout_alignParentTop="true">
     </TextView>
 
 

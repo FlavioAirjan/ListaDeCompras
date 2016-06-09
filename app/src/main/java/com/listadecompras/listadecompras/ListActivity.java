@@ -78,6 +78,7 @@ public class ListActivity extends AppCompatActivity {
                 adapter.addItem(new Item( "novo" , key));
                 updateNumItens();
                 adapter.notifyDataSetChanged();
+                lv.setSelection(lv.getAdapter().getCount()-1);
             }
         });
 
@@ -153,7 +154,7 @@ public class ListActivity extends AppCompatActivity {
         if(listaItens.getListaItens().size()-listaItens.getNumItensChecked()>0) {
             numItens.setTextColor(Color.RED);
         }else{
-            numItens.setTextColor(Color.GREEN);
+            numItens.setTextColor(Color.rgb(63,81,181));
         }
         numItens.setText(String.valueOf(listaItens.getListaItens().size()-listaItens.getNumItensChecked()));
     }
