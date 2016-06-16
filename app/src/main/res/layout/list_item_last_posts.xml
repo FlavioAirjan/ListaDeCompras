@@ -8,7 +8,7 @@
 
     <EditText
         android:id="@+id/nome_lista"
-        android:layout_width="60dp"
+        android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1.73"
@@ -17,12 +17,13 @@
         android:paddingRight="6dp"
         android:singleLine="true"
         android:selectAllOnFocus="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="@android:color/transparent"/>
 
 
     <Button
         android:id="@+id/btn_menos_lista"
-        android:layout_width="75dp"
+        android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:background="@mipmap/ic_delete"/>

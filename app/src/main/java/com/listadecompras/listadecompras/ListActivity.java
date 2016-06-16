@@ -6,14 +6,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,9 +70,53 @@ public class ListActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
 
 
-
-        myAwesomeTextView = (TextView)findViewById(R.id.list_text_view_name);
+        myAwesomeTextView = (EditText)findViewById(R.id.list_text_view_name);
         myAwesomeTextView.setText(listaItens.getNome());
+        //myAwesomeTextView.setClickable(true);
+        myAwesomeTextView.setFocusableInTouchMode(false);
+        myAwesomeTextView.setTextIsSelectable(false);
+
+        myAwesomeTextView.setOnLongClickListener(
+                new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+                    myAwesomeTextView.setFocusableInTouchMode(true);
+                   // holder.menos.setClickable(false);
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+                    //holder.name.setPressed(true);
+                    //holder.name.findViewById(R.id.nome_lista).setPressed(true);
+                    // holder.name.findViewById(R.id.nome_lista).isInEditMode();
+
+                    return true;
+            }
+
+        });
+
+        myAwesomeTextView.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+
+                            // the user is done typing.
+                            modifyData(v.getEditableText().toString());
+                            myAwesomeTextView.setFocusableInTouchMode(false);
+                            myAwesomeTextView.setFocusable(false);
+                            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(),0);
+                            return true; // consume.
+
+
+                        }
+                        return false;
+
+                    }
+                });
+
 
 
         final Button button = (Button) findViewById(R.id.add_item_button);
@@ -192,6 +242,12 @@ public class ListActivity extends AppCompatActivity {
                 listaItens.getListaItens().get(pos).getQuantidade(),
                 listaItens.getListaItens().get(pos).checkInt());
         listaItens.getListaItens().get(pos).setNome(nome);
+        notifyData();
+    }
+
+    public void modifyData(String name){
+        listaItens.setNome(name);
+        database.alteraLista(listaItens.getKey(),name,listaItens.getNumItensChecked());
         notifyData();
     }
 

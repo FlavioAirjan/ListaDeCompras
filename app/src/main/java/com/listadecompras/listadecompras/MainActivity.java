@@ -90,7 +90,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(context, "No result", Toast.LENGTH_LONG).show();
             }
         }
+        notifyData();
     }//onActivityResult
+
+
     public void povoaItens(long fkey,ListaItens itens){
         Cursor cursor=database.carregaItem(fkey);
         String name;
