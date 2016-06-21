@@ -69,7 +69,13 @@ public class ListaItens implements Serializable {
 
 
     public boolean AddItem(Item newItem){
-        this.listaItens.add(newItem);
+        if(newItem.isCheck()){
+            this.listaItens.add(newItem);
+        }else{
+            this.listaItens.add(0,newItem);
+        }
+
+
         if(this.listaItens.contains(newItem)) {
             return true;
         }else{

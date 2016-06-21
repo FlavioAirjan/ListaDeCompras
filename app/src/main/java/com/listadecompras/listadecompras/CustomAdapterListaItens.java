@@ -138,11 +138,23 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
     public void makeBoolDialog(Context context, String title,String text,String posit,String negat,final int position){
 
+
+
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);//new ContextThemeWrapper(context, R.style.AlertDialogCustom));
 
         LayoutInflater li =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = li.inflate(R.layout.alert_dialog, null);
         builder.setView(view);
+
+
+        TextView btnAdd1 = (TextView) view.findViewById(R.id.btnAdd1);
+
+        TextView btnAdd2 = (TextView) view.findViewById(R.id.btnAdd2);
+
+
+
 
         TextView input = (TextView)view.findViewById(R.id.text);
         input.setGravity(Gravity.CENTER);
@@ -160,9 +172,8 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
         builder.setCustomTitle(title_edited);
 
-
 // Set up the buttons
-        builder.setPositiveButton(posit, new DialogInterface.OnClickListener() {
+       /* builder.setPositiveButton(posit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //return true;
@@ -170,17 +181,36 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                 listActivity.removeItem(position);
             }
         });
+
         builder.setNegativeButton(negat, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
+        });*/
+        final AlertDialog dialog = builder.create();
+
+        btnAdd1.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+
+                // btnAdd1 has been clicked
+                dialog.cancel();
+            }
         });
 
-        final AlertDialog dialog = builder.create();
+        btnAdd2.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+
+                // btnAdd2 has been clicked
+                listActivity.removeItem(position);
+                dialog.cancel();
+            }
+        });
 
 
         dialog.show();
+        //dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+       // dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(Color.argb(255,27,94,32));
 
     }
 
@@ -237,7 +267,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                makeBoolDialog(context,"Remove","Você quer deletar o item '" +listaItens.getListaItens().get(position).getNome()+"'?","Sim","Não",position);
+                makeBoolDialog(context,"Remover Item","Você deseja deletar o item '" +listaItens.getListaItens().get(position).getNome()+"'?","Sim","Não",position);
             }
         });
 

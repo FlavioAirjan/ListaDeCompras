@@ -53,6 +53,10 @@ public class CustomAdapterListaListas extends BaseAdapter {
         View view = li.inflate(R.layout.alert_dialog, null);
         builder.setView(view);
 
+        TextView btnAdd1 = (TextView) view.findViewById(R.id.btnAdd1);
+
+        TextView btnAdd2 = (TextView) view.findViewById(R.id.btnAdd2);
+
         TextView input = (TextView)view.findViewById(R.id.text);
         input.setGravity(Gravity.CENTER);
         input.setText(text);
@@ -68,27 +72,27 @@ public class CustomAdapterListaListas extends BaseAdapter {
         title_edited.setTextSize(20);
 
         builder.setCustomTitle(title_edited);
+        final AlertDialog dialog = builder.create();
 
-// Set up the buttons
-        builder.setPositiveButton(posit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //return true;
-                listActivity.removeItem(position);
-            }
-        });
+        btnAdd1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
-        builder.setNegativeButton(negat, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                // btnAdd1 has been clicked
                 dialog.cancel();
             }
         });
-        final AlertDialog dialog = builder.create();
+
+        btnAdd2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                // btnAdd2 has been clicked
+                listActivity.removeItem(position);
+                dialog.cancel();
+            }
+        });
 
 
         dialog.show();
-
     }
 
     public void addItem(ListaItens item){
@@ -141,7 +145,7 @@ public class CustomAdapterListaListas extends BaseAdapter {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if(pastaListas.getListaListas().size()>position) {
-                    makeBoolDialog(context, "Remove", "Você quer deletar a lista '" + pastaListas.getListaListas().get(position).getNome() + "'?", "Sim", "Não", position);
+                    makeBoolDialog(context, "Remover Lista", "Você deseja deletar a lista '" + pastaListas.getListaListas().get(position).getNome() + "'?", "Sim", "Não", position);
                 }
             }
         });

@@ -46,7 +46,13 @@ public class ListActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-
+    public void onBackPressed(){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result",listaItens);
+        returnIntent.putExtra("position",position);
+        setResult(Activity.RESULT_OK,returnIntent);
+        finish();
+    }
     /**
      * Called when the activity is first created.
      */
@@ -128,7 +134,7 @@ public class ListActivity extends AppCompatActivity {
                 adapter.addItem(new Item( "novo" , key));
                 updateNumItens();
                 adapter.notifyDataSetChanged();
-                lv.setSelection(lv.getAdapter().getCount()-1);
+                lv.setSelection(0);
             }
         });
 
@@ -185,11 +191,16 @@ public class ListActivity extends AppCompatActivity {
                 listaItens.getListaItens().get(pos).getQuantidade(),
                 check);
 
+        //check item e muda posicao na lista
         if(check==1) {
             listaItens.getListaItens().get(pos).setCheck(true);
+            listaItens.getListaItens().add(listaItens.getListaItens().get(pos));
+            listaItens.getListaItens().remove(pos);
             listaItens.setNumItensChecked(listaItens.getNumItensChecked()+1);
         }else{
             listaItens.getListaItens().get(pos).setCheck(false);
+            listaItens.getListaItens().add(0,listaItens.getListaItens().get(pos));
+            listaItens.getListaItens().remove(pos+1);
             listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
         }
 
