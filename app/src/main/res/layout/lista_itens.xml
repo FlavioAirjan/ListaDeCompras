@@ -34,13 +34,15 @@
         android:gravity="start|center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/tipoItem"
+        android:layout_toStartOf="@+id/quantItem"
         android:background="@android:color/transparent"/>
 
 
-    <TextView
-        android:id="@+id/tipoItem"
-        android:layout_width="50dp"
+    <EditText
+        android:id="@+id/precoItem"
+        android:inputType="number"
+        android:layout_width="60dp"
+        android:selectAllOnFocus="true"
         android:layout_height="50dp"
         android:layout_weight="1"
         android:ellipsize="end"
@@ -50,23 +52,25 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/quantItem" />
+        android:layout_toStartOf="@+id/btn_menos"
+        android:background="@android:color/transparent"/>
 
     <EditText
         android:inputType="number"
         android:selectAllOnFocus="true"
         android:id="@+id/quantItem"
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:singleLine="true"
-        android:gravity="start|center"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_toStartOf="@+id/btn_menos"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/precoItem" />
 
 
     <Button

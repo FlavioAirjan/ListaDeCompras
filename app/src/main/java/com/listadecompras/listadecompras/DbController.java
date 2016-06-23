@@ -18,7 +18,7 @@ public class DbController {
     }
 
     //insere lista e retorna o id no objeto inserido
-    public long insereLista(String nome,int checked){
+    public long insereLista(String nome,int checked,float total){
         ContentValues valores;
         long resultado;
 
@@ -26,6 +26,7 @@ public class DbController {
         valores = new ContentValues();
         valores.put(CriaBanco.getNomeLista(), nome);
         valores.put(CriaBanco.getCheckedItens(), checked);
+        valores.put(CriaBanco.getPrecoLista(), total);
 
         resultado = db.insert(CriaBanco.getTabelaLista(), null, valores);
 
@@ -38,7 +39,7 @@ public class DbController {
 
     }
 
-    public void alteraLista(long id, String nome,int checked){
+    public void alteraLista(long id, String nome,int checked,float total){
         ContentValues valores;
         String where;
 
@@ -48,12 +49,13 @@ public class DbController {
         valores = new ContentValues();
         valores.put(CriaBanco.getNomeLista(), nome);
         valores.put(CriaBanco.getCheckedItens(), checked);
+        valores.put(CriaBanco.getPrecoLista(), total);
 
         db.update(CriaBanco.getTabelaLista(),valores,where,null);
         db.close();
     }
 
-    public void alteraItem(long id,long fkey ,String nome,String tipo, float quant, int check){
+    public void alteraItem(long id,long fkey ,String nome,float preco, float quant, int check){
         ContentValues valores;
         String where;
 
@@ -62,7 +64,7 @@ public class DbController {
         where = CriaBanco.getIdItem() + "=" + id;
         valores = new ContentValues();
         valores.put(CriaBanco.getNomeItem(), nome);
-        valores.put(CriaBanco.getTipoItem(), tipo);
+        valores.put(CriaBanco.getPrecoItem(), preco);
         valores.put(CriaBanco.getCheckItem(), check);
         valores.put(CriaBanco.getQuantItem(), quant);
         valores.put(CriaBanco.getIdListaForeignkey(), fkey);
@@ -86,14 +88,14 @@ public class DbController {
         db.close();
     }
 
-    public long insereItem(String nome,String tipo,int check,float quant,long fkey){
+    public long insereItem(String nome,float preco,int check,float quant,long fkey){
         ContentValues valores;
         long resultado;
 
         db = banco.getWritableDatabase();
         valores = new ContentValues();
         valores.put(CriaBanco.getNomeItem(), nome);
-        valores.put(CriaBanco.getTipoItem(), tipo);
+        valores.put(CriaBanco.getPrecoItem(), preco);
         valores.put(CriaBanco.getCheckItem(), check);
         valores.put(CriaBanco.getQuantItem(), quant);
         valores.put(CriaBanco.getIdListaForeignkey(), fkey);
@@ -110,7 +112,7 @@ public class DbController {
 
     public Cursor carregaLista(){
         Cursor cursor;
-        String[] campos =  {banco.getIdLista(),banco.getNomeLista(),banco.getCheckedItens()};
+        String[] campos =  {banco.getIdLista(),banco.getNomeLista(),banco.getCheckedItens(),banco.getPrecoLista()};
         db = banco.getReadableDatabase();
         cursor = db.query(banco.getTabelaLista(), campos, null, null, null, null, null, null);
 
@@ -123,7 +125,7 @@ public class DbController {
 
     public Cursor carregaItem(long key){
         Cursor cursor;
-        String[] campos =  {banco.getIdItem(),banco.getIdListaForeignkey(),banco.getNomeItem(),banco.getTipoItem(),banco.getQuantItem(),banco.getCheckItem()};
+        String[] campos =  {banco.getIdItem(),banco.getIdListaForeignkey(),banco.getNomeItem(),banco.getPrecoItem(),banco.getQuantItem(),banco.getCheckItem()};
         db = banco.getReadableDatabase();
         String[] args = { String.valueOf(key)};
         cursor = db.query(banco.getTabelaItem(), campos, banco.getIdListaForeignkey()+"=?", args, null, null, null, null);
@@ -167,8 +169,8 @@ public class DbController {
         return banco.getNomeItem();
     }
 
-    public  String getTipoItem() {
-        return banco.getTipoItem();
+    public  String getPrecoItem() {
+        return banco.getPrecoItem();
     }
 
     public  String getQuantItem() {
@@ -181,6 +183,10 @@ public class DbController {
 
     public  String getCheckedItens() {
         return banco.getCheckedItens();
+    }
+
+    public  String getPrecoLista() {
+        return banco.getPrecoLista();
     }
 
     public int getVERSAO() {

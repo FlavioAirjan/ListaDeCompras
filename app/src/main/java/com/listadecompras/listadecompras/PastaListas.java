@@ -26,8 +26,8 @@ public class PastaListas implements Serializable {
         this.listaListas = listaListas;
     }
 
-    public void addLista(String nome,long key,int checked){
-        this.listaListas.add(new ListaItens(nome,key,checked));
+    public void addLista(String nome,long key,int checked,float preco){
+        this.listaListas.add(new ListaItens(nome,key,checked,preco));
     }
 
     public void removeLista(ListaItens lista){

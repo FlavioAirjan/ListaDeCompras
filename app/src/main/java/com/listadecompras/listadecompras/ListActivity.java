@@ -41,6 +41,7 @@ public class ListActivity extends AppCompatActivity {
     int position;
     private DbController database;
     private TextView numItens;
+    private TextView total;
 
     public void notifyData(){
         adapter.notifyDataSetChanged();
@@ -133,7 +134,7 @@ public class ListActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Toast.makeText(context, "Add Item", Toast.LENGTH_LONG).show();
-                long key=database.insereItem("Novo Item","Un",0,0,listaItens.getKey());
+                long key=database.insereItem("Novo Item",0,0,0,listaItens.getKey());
                 adapter.addItem(new Item( "Novo Item" , key));
                 updateNumItens();
                 adapter.notifyDataSetChanged();
@@ -159,30 +160,47 @@ public class ListActivity extends AppCompatActivity {
         numItens= (TextView) findViewById(R.id.list_item_number);
         updateNumItens();//numItens.setText(String.valueOf(listaItens.getListaItens().size()-listaItens.getNumItensChecked()));
 
+        total=(TextView) findViewById(R.id.list_preco);
+        total.setText(String.valueOf(listaItens.getTotal()));
+
     }
 
     public void modifyQuant(int pos, float quant){
         database.alteraItem(listaItens.getListaItens().get(pos).getId(),
                 listaItens.getKey(),
                 listaItens.getListaItens().get(pos).getNome(),
-                listaItens.getListaItens().get(pos).getTipo(),
+                listaItens.getListaItens().get(pos).getPreco(),
                 quant,
                 listaItens.getListaItens().get(pos).checkInt());
 
+        if(listaItens.getListaItens().get(pos).isCheck()) {
+            atualizaPrecoTotal((listaItens.getListaItens().get(pos).getPreco()*quant)-listaItens.getListaItens().get(pos).getPrecoTotal(), pos);
+        }
         listaItens.getListaItens().get(pos).setQuantidade(quant);
         notifyData();
     }
 
-    public void modifyTipo(int pos, String tipo){
+    public void modifyPreco(int pos, float preco){
         database.alteraItem(listaItens.getListaItens().get(pos).getId(),
                 listaItens.getKey(),
                 listaItens.getListaItens().get(pos).getNome(),
-                tipo,
+                preco,
                 listaItens.getListaItens().get(pos).getQuantidade(),
                 listaItens.getListaItens().get(pos).checkInt());
 
-        listaItens.getListaItens().get(pos).setTipo(tipo);
+        if(listaItens.getListaItens().get(pos).isCheck()) {
+            atualizaPrecoTotal(preco * listaItens.getListaItens().get(pos).getQuantidade()-listaItens.getListaItens().get(pos).getPrecoTotal(), pos);
+        }
+        listaItens.getListaItens().get(pos).setPreco(preco);
+
         notifyData();
+    }
+
+    public void atualizaPrecoTotal(float novoPreco,int pos){
+            listaItens.setTotal(listaItens.getTotal() + novoPreco);
+            database.alteraLista(listaItens.getKey(), listaItens.getNome(), listaItens.getNumItensChecked(), listaItens.getTotal());
+            total.setText(String.valueOf(listaItens.getTotal()));
+
     }
 
     public void modifyCheck(int pos, int check){
@@ -190,25 +208,29 @@ public class ListActivity extends AppCompatActivity {
         database.alteraItem(listaItens.getListaItens().get(pos).getId(),
                 listaItens.getKey(),
                 listaItens.getListaItens().get(pos).getNome(),
-                listaItens.getListaItens().get(pos).getTipo(),
+                listaItens.getListaItens().get(pos).getPreco(),
                 listaItens.getListaItens().get(pos).getQuantidade(),
                 check);
 
         //check item e muda posicao na lista
         if(check==1) {
             listaItens.getListaItens().get(pos).setCheck(true);
+            atualizaPrecoTotal(listaItens.getListaItens().get(pos).getPrecoTotal(),pos);
             listaItens.getListaItens().add(listaItens.getListaItens().get(pos));
             listaItens.getListaItens().remove(pos);
             listaItens.setNumItensChecked(listaItens.getNumItensChecked()+1);
+
         }else{
             listaItens.getListaItens().get(pos).setCheck(false);
+            atualizaPrecoTotal(-listaItens.getListaItens().get(pos).getPrecoTotal(),pos);
             listaItens.getListaItens().add(0,listaItens.getListaItens().get(pos));
             listaItens.getListaItens().remove(pos+1);
             listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
+
         }
 
         //Atualiza o db com a lista com o número checked atualizado
-        database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked());
+        database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked(),listaItens.getTotal());
         updateNumItens();
         notifyData();
     }
@@ -231,9 +253,11 @@ public class ListActivity extends AppCompatActivity {
 
                 //Se o item deletado estava checked
                 if(listaItens.getListaItens().get(pos).isCheck()){
+                    atualizaPrecoTotal(-listaItens.getListaItens().get(pos).getPrecoTotal(),pos);
                     listaItens.getListaItens().remove(pos);
                     listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
-                    database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked());
+
+                    database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked(),listaItens.getTotal());
                 }else{
                     listaItens.getListaItens().remove(pos);
                     updateNumItens();
@@ -252,7 +276,7 @@ public class ListActivity extends AppCompatActivity {
         database.alteraItem(listaItens.getListaItens().get(pos).getId(),
                 listaItens.getKey(),
                 nome,
-                listaItens.getListaItens().get(pos).getTipo(),
+                listaItens.getListaItens().get(pos).getPreco(),
                 listaItens.getListaItens().get(pos).getQuantidade(),
                 listaItens.getListaItens().get(pos).checkInt());
         listaItens.getListaItens().get(pos).setNome(nome);
@@ -261,7 +285,7 @@ public class ListActivity extends AppCompatActivity {
 
     public void modifyData(String name){
         listaItens.setNome(name);
-        database.alteraLista(listaItens.getKey(),name,listaItens.getNumItensChecked());
+        database.alteraLista(listaItens.getKey(),name,listaItens.getNumItensChecked(),listaItens.getTotal());
         notifyData();
     }
 

@@ -48,7 +48,11 @@ public class ListaItens implements Serializable {
     }
 
     public void setTotal(float total) {
-        this.total = total;
+        if(total<0) {
+            this.total = 0;
+        }else{
+            this.total = total;
+        }
     }
 
     public List<Item> getListaItens() {
@@ -59,11 +63,11 @@ public class ListaItens implements Serializable {
         this.listaItens = listaItens;
     }
 
-    public ListaItens(String nome,long key,int checked) {
+    public ListaItens(String nome,long key,int checked,float preco) {
         this.nome=nome;
         this.key=key;
         this.numItensChecked=checked;
-        this.total=0;
+        this.total=preco;
         this.listaItens = new ArrayList<>();
     }
 

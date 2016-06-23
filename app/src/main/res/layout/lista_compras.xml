@@ -7,14 +7,28 @@
     android:id = "@+id/container"
     android:background="@mipmap/ic_paper">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id = "@+id/RL_quant"
+        android:layout_toStartOf="@+id/add_item_button"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/add_item_button"
+        android:layout_toLeftOf="@+id/add_item_button">
     <TextView android:id="@+id/list_item_number"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="75dip"
         android:gravity="left|center"
         android:textSize="26sp"
         android:layout_marginLeft="0dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/list_restam">
+        android:layout_alignParentBottom="false"
+        android:layout_weight="0.38"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="false"
+        android:layout_toRightOf="@+id/list_restam">
     </TextView>
 
     <TextView android:id="@+id/list_restam"
@@ -24,10 +38,58 @@
         android:textSize="20sp"
         android:text="Restam: "
         android:layout_marginLeft="0dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
     </TextView>
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/RL_preco"
+        android:gravity="center"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/add_item_button"
+        android:layout_below="@+id/list_itens"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="false"
+        android:layout_toRightOf="@+id/add_item_button"
+        android:layout_alignTop="@+id/add_item_button">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView android:id="@+id/list_total"
+                android:layout_width="wrap_content"
+                android:layout_height="75dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="R$: "
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+            </TextView>
+            <TextView android:id="@+id/list_preco"
+                android:layout_width="wrap_content"
+                android:layout_height="75dip"
+                android:gravity="left|center"
+                android:textSize="20sp"
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="false"
+                android:layout_toEndOf="@+id/list_total"
+                android:layout_gravity="center">
+            </TextView>
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/list_itens"

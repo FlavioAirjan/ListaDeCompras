@@ -8,13 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Flavio on 02/06/2016.
  */
 public class CriaBanco extends SQLiteOpenHelper {
-    private static final int VERSAO= 2;
+    private static final int VERSAO= 3;
     private static final String NOME_BANCO = "listaComprasBanco"+String.valueOf(VERSAO)+".db";
 
     private static final String TABELA_LISTA = "lista_itens";
     private static final String ID_LISTA = "lista_id";
     private static final String NOME_LISTA = "nome";
     private static final String CHECKED_ITENS = "checked_itens";
+    private static final String PRECO_LISTA = "preco_lista";
 
 
 
@@ -22,7 +23,7 @@ public class CriaBanco extends SQLiteOpenHelper {
     private static final String ID_ITEM= "lista_id";
     private static final String ID_LISTA_FOREIGNKEY = "lista_id_fkey";
     private static final String NOME_ITEM = "nome";
-    private static final String TIPO_ITEM = "tipo";
+    private static final String PRECO_ITEM = "preco";
     private static final String QUANT_ITEM = "quantidade";
     private static final String CHECK_ITEM = "check_item";
 
@@ -37,7 +38,8 @@ public class CriaBanco extends SQLiteOpenHelper {
         String sqlLista = "CREATE TABLE IF NOT EXISTS "+TABELA_LISTA+" ("
                 + ID_LISTA + " integer primary key autoincrement, "
                 + NOME_LISTA + " text, "
-                + CHECKED_ITENS+ " integer"
+                + CHECKED_ITENS+ " integer, "
+                + PRECO_LISTA+ " real"
                 +")";
         db.execSQL(sqlLista);
 
@@ -45,7 +47,7 @@ public class CriaBanco extends SQLiteOpenHelper {
                 + ID_ITEM + " integer primary key autoincrement, "
                 + ID_LISTA_FOREIGNKEY + " integer, "
                 + NOME_ITEM + " text, "
-                + TIPO_ITEM + " text, "
+                + PRECO_ITEM + " real, "
                 + QUANT_ITEM + " real, "
                 + CHECK_ITEM + " integer, "
                 + " FOREIGN KEY ("+ID_LISTA_FOREIGNKEY+") REFERENCES "+TABELA_LISTA+"("+ID_LISTA+")"
@@ -76,6 +78,10 @@ public class CriaBanco extends SQLiteOpenHelper {
         return ID_LISTA;
     }
 
+    public static String getPrecoLista() {
+        return PRECO_LISTA;
+    }
+
     public static String getNomeLista() {
         return NOME_LISTA;
     }
@@ -96,8 +102,8 @@ public class CriaBanco extends SQLiteOpenHelper {
         return NOME_ITEM;
     }
 
-    public static String getTipoItem() {
-        return TIPO_ITEM;
+    public static String getPrecoItem() {
+        return PRECO_ITEM;
     }
 
     public static String getQuantItem() {

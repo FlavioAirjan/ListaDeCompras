@@ -10,6 +10,16 @@ public class Item implements Serializable{
     private float quantidade;
     private String tipo;
     private float preco;
+    private float precoTotal;
+
+    public float getPrecoTotal() {
+        return precoTotal;
+    }
+
+    public void setPrecoTotal() {
+        this.precoTotal = quantidade*preco;
+    }
+
     private boolean check;
     private long id;
 
@@ -32,48 +42,67 @@ public class Item implements Serializable{
 
     public Item(String nome,long id) {
         this.nome = nome;
-        this.quantidade = 0;
+        this.quantidade = 1;
         this.tipo = "Un";
         this.preco = 0;
         this.id= id;
         this.check=false;
+        this.setPrecoTotal();
     }
 
     public Item(String nome, float quantidade,long id) {
         this.nome = nome;
-        this.quantidade = quantidade;
+        if(quantidade<=0){
+            this.quantidade = 1;
+        }else{
+            this.quantidade = quantidade;
+        }
         this.tipo = "Un";
         this.preco = 0;
         this.id= id;
         this.check=false;
+        this.setPrecoTotal();
     }
 
-    public Item(String nome, float quantidade, String tipo,long id) {
+    public Item(String nome, float quantidade, float preco,long id) {
         this.nome = nome;
-        this.quantidade = quantidade;
-        this.tipo = tipo;
-        this.preco = 0;
+        if(quantidade<=0){
+            this.quantidade = 1;
+        }else{
+            this.quantidade = quantidade;
+        }
+        this.preco =preco ;
         this.id= id;
         this.check=false;
+        this.setPrecoTotal();
     }
 
-    public Item(String nome, float quantidade, String tipo,int check,long id) {
+    public Item(String nome, float quantidade, float preco,int check,long id) {
         this.nome = nome;
-        this.quantidade = quantidade;
-        this.tipo = tipo;
-        this.preco = 0;
+        if(quantidade<=0){
+            this.quantidade = 1;
+        }else{
+            this.quantidade = quantidade;
+        }
+
+        this.preco = preco;
         this.id= id;
         if(check==1){
             this.check=true;
         }else{
             this.check=false;
         }
+        this.setPrecoTotal();
 
     }
 
     public Item(String nome, float quantidade, String tipo, float preco,int check,long id) {
         this.nome = nome;
-        this.quantidade = quantidade;
+        if(quantidade<=0){
+            this.quantidade = 1;
+        }else{
+            this.quantidade = quantidade;
+        }
         this.tipo = tipo;
         this.preco = preco;
         this.id= id;
@@ -82,18 +111,25 @@ public class Item implements Serializable{
         }else{
             this.check=false;
         }
+        this.setPrecoTotal();
     }
 
     //get_set quantidade
     public float getQuantidade() {
         return quantidade;
+
     }
 
     public void setQuantidade(float quantidade) {
-        this.quantidade = quantidade;
+        if(quantidade<=0){
+            this.quantidade = 1;
+        }else {
+            this.quantidade = quantidade;
+        }
+        setPrecoTotal();
     }
 
-    //get_set quantidade
+    //get_set tipo
     public String getTipo() {
         return tipo;
     }
@@ -112,16 +148,17 @@ public class Item implements Serializable{
 
     }
 
-    //get_set quantidade
+    //get_set preco
     public float getPreco() {
         return preco;
     }
 
     public void setPreco(float preco) {
         this.preco = preco;
+        setPrecoTotal();
     }
 
-    //get_set quantidade
+    //get_set nome
     public String getNome() {
         return nome;
     }

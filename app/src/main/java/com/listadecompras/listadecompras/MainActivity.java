@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void modifyData(int position,String name){
         pastaLista.getListaListas().get(position).setNome(name);
-        database.alteraLista(pastaLista.getListaListas().get(position).getKey(),name,pastaLista.getListaListas().get(position).getNumItensChecked());
+        database.alteraLista(pastaLista.getListaListas().get(position).getKey(),name,pastaLista.getListaListas().get(position).getNumItensChecked(),pastaLista.getListaListas().get(position).getTotal());
         notifyData();
     }
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor=database.carregaItem(fkey);
         String name;
         long key;
-        String tipo;
+       float preco;
         int check;
         float quant;
 
@@ -106,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             name = cursor.getString(cursor.getColumnIndex(database.getNomeItem()));
             key=cursor.getLong(cursor.getColumnIndex(database.getIdItem()));
-            tipo=cursor.getString(cursor.getColumnIndex(database.getTipoItem()));
+            preco=cursor.getLong(cursor.getColumnIndex(database.getPrecoItem()));
             check=cursor.getInt(cursor.getColumnIndex(database.getCheckItem()));
             quant=cursor.getLong(cursor.getColumnIndex(database.getQuantItem()));
-            itens.AddItem(new Item(name, quant, tipo,check,key));
+            itens.AddItem(new Item(name, quant, preco,check,key));
         }
         cursor.close();
 
@@ -126,12 +126,14 @@ public class MainActivity extends AppCompatActivity {
         String name;
         long key;
         int checked;
+        float preco;
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 name = cursor.getString(cursor.getColumnIndex(database.getNomeLista()));
                 key=cursor.getLong(cursor.getColumnIndex(database.getIdLista()));
                 checked=cursor.getInt(cursor.getColumnIndex(database.getCheckedItens()));
-                pastaLista.addLista(name, key,checked);
+                preco=cursor.getLong(cursor.getColumnIndex(database.getPrecoLista()));
+                pastaLista.addLista(name, key,checked,preco);
                 povoaItens(key,pastaLista.getListItens(key));
 
             }
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(context, "Add Lista", Toast.LENGTH_LONG).show();
 
-                    adapter.addItem(new ListaItens("Nova Lista",database.insereLista("Nova Lista",0),0));
+                    adapter.addItem(new ListaItens("Nova Lista",database.insereLista("Nova Lista",0,0),0,0));
                     //addListaBD("outra Lista");
                     adapter.notifyDataSetChanged();
 

@@ -54,7 +54,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
     }
 
 
-    private void makeDialog(int position,String tipo){
+   /* private void makeDialog(int position,String tipo){
         final int pos=position;
         final String tip=tipo;
         final String result;
@@ -125,7 +125,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                 }
                 /*makeChange(input.getText().toString(),pos,tip);
                 //listaItens.getListaItens().get(pos).setNome(input.getText().toString());
-                listActivity.notifyData();*/
+                listActivity.notifyData();
 
             }
         });
@@ -138,7 +138,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
         if(dialog) {
             builder.show();
         }
-    }
+    }*/
 
 
     public void makeBoolDialog(Context context, String title,String text,String posit,String negat,final int position){
@@ -172,23 +172,6 @@ public class CustomAdapterListaItens  extends BaseAdapter{
         title_edited.setTextSize(20);
 
         builder.setCustomTitle(title_edited);
-
-// Set up the buttons
-       /* builder.setPositiveButton(posit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //return true;
-
-                listActivity.removeItem(position);
-            }
-        });
-
-        builder.setNegativeButton(negat, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });*/
         final AlertDialog dialog = builder.create();
 
         btnAdd1.setOnClickListener(new OnClickListener() {
@@ -208,10 +191,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             }
         });
 
-
         dialog.show();
-        //dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
-       // dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(Color.argb(255,27,94,32));
 
     }
 
@@ -237,7 +217,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
     {
         EditText name;
         EditText quantidade;
-        TextView tipo;
+        EditText preco;
         Button menos;
         CheckBox checkBox;
     }
@@ -262,12 +242,13 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
         holder.name=(EditText) rowView.findViewById(R.id.nomeItem);
         holder.quantidade=(EditText) rowView.findViewById(R.id.quantItem);
-        holder.tipo=(TextView) rowView.findViewById(R.id.tipoItem);
+        holder.preco=(EditText) rowView.findViewById(R.id.precoItem);
         holder.checkBox=(CheckBox) rowView.findViewById(R.id.checkItem);
+
 
         holder.name.setText(listaItens.getListaItens().get(position).getNome());
         holder.quantidade.setText(String.valueOf(listaItens.getListaItens().get(position).getQuantidade()));
-        holder.tipo.setText(listaItens.getListaItens().get(position).getTipo());
+        holder.preco.setText(String.valueOf(listaItens.getListaItens().get(position).getPreco()));
         holder.checkBox.setChecked(listaItens.getListaItens().get(position).isCheck());
 
 
@@ -293,23 +274,10 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                    // holder.name.setBackground(context.getDrawable(R.drawable.ic_bt9));
                     listActivity.modifyCheck(position,1);
 
-
-                    //convertView.setBackground(context.getDrawable(R.drawable.ic_bt9));
-                    //holder.name.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
-                   // holder.name.setPaintFlags(holder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-                    //holder.name.setText(holder.name.getText(), TextView.BufferType.SPANNABLE);
-                   // Spannable spannable = (Spannable) holder.name.getText();
-                   // spannable.setSpan(STRIKE_THROUGH_SPAN, 0, holder.name.getText().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }else{
                    // holder.name.setBackground(null);
                     listActivity.modifyCheck(position,0);
-                    //rowView.setBackground(context.getDrawable(R.color.colorTransp));
 
-                    //convertView.setBackgroundResource(android.R.color.transparent);
-                   // holder.name.setBackgroundColor(Color.WHITE);
-                   // Toast.makeText(context, "You Unchecked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }
 
                 listActivity.notifyData();
@@ -338,7 +306,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                     holder.checkBox.setClickable(true);
                     holder.menos.setClickable(true);
                     holder.quantidade.setClickable(true);
-                    holder.tipo.setClickable(true);
+                    holder.preco.setClickable(true);
                     return true; // consume.
 
 
@@ -356,7 +324,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                 holder.checkBox.setClickable(false);
                 holder.menos.setClickable(false);
                 holder.quantidade.setClickable(false);
-                holder.tipo.setClickable(false);
+                holder.preco.setClickable(false);
 
                // InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
               //  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
@@ -383,7 +351,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                             holder.checkBox.setClickable(true);
                             holder.menos.setClickable(true);
                             holder.name.setClickable(true);
-                            holder.tipo.setClickable(true);
+                            holder.preco.setClickable(true);
                             return true; // consume.
 
 
@@ -401,7 +369,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                 holder.checkBox.setClickable(false);
                 holder.menos.setClickable(false);
                 holder.name.setClickable(false);
-                holder.tipo.setClickable(false);
+                holder.preco.setClickable(false);
                 // InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 //  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
@@ -418,16 +386,49 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             }
         });*/
 
-        rowView.findViewById(R.id.tipoItem).setOnClickListener(new OnClickListener() {
+        rowView.findViewById(R.id.precoItem).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                makeDialog(position,"Tipo");
-
+               // makeDialog(position,"Tipo");
+                holder.quantidade.setFocusable(false); //setFocusableInTouchMode(true);
+                holder.checkBox.setClickable(false);
+                holder.menos.setClickable(false);
+                holder.name.setClickable(false);
+                holder.preco.setClickable(true);
                // Toast.makeText(context, "You Clicked "+listaItens.getListaItens().get(position).getTipo(), Toast.LENGTH_LONG).show();
             }
         });
 
+
+        ((EditText) rowView.findViewById(R.id.precoItem)).setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+
+                            // the user is done typing.
+                            String temp=v.getEditableText().toString().replace("-","");
+                            listActivity.modifyPreco(position,Float.valueOf(temp));
+
+                            if (rowView.hasFocus()) {
+                                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(rowView.getWindowToken(), 0);
+                            }
+                            holder.quantidade.setFocusable(true);
+                            holder.checkBox.setClickable(true);
+                            holder.menos.setClickable(true);
+                            holder.name.setClickable(true);
+                            holder.preco.setClickable(false);
+                            return true; // consume.
+
+
+                        }
+                        return false;
+
+                    }
+                });
         /*rowView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
