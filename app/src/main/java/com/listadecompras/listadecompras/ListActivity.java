@@ -82,6 +82,9 @@ public class ListActivity extends AppCompatActivity {
         myAwesomeTextView.setFocusableInTouchMode(false);
         myAwesomeTextView.setTextIsSelectable(false);
 
+
+
+
         myAwesomeTextView.setOnLongClickListener(
                 new View.OnLongClickListener() {
 
@@ -130,8 +133,8 @@ public class ListActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Toast.makeText(context, "Add Item", Toast.LENGTH_LONG).show();
-                long key=database.insereItem("novo","Un",0,0,listaItens.getKey());
-                adapter.addItem(new Item( "novo" , key));
+                long key=database.insereItem("Novo Item","Un",0,0,listaItens.getKey());
+                adapter.addItem(new Item( "Novo Item" , key));
                 updateNumItens();
                 adapter.notifyDataSetChanged();
                 lv.setSelection(0);

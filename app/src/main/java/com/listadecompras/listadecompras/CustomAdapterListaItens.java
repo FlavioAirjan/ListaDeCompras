@@ -3,10 +3,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.StrikethroughSpan;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,7 +35,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
     ListActivity listActivity;
     Context context;
     int click;
-
+    private static final StrikethroughSpan STRIKE_THROUGH_SPAN = new StrikethroughSpan();
     private static LayoutInflater inflater=null;
 
     public CustomAdapterListaItens (ListActivity listActivity,ListaItens listaItens) {
@@ -138,10 +143,6 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
     public void makeBoolDialog(Context context, String title,String text,String posit,String negat,final int position){
 
-
-
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context);//new ContextThemeWrapper(context, R.style.AlertDialogCustom));
 
         LayoutInflater li =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -240,8 +241,20 @@ public class CustomAdapterListaItens  extends BaseAdapter{
         Button menos;
         CheckBox checkBox;
     }
+
+    void setbackground(boolean color,View v,EditText text){
+        if(color) {
+            v.setBackground(context.getDrawable(R.color.colorTranspBlack));
+            text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            v.setBackground(context.getDrawable(R.color.colorTransp));
+            text.setPaintFlags(text.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+    }
+
     @Override
     public View getView(final int position,final View convertView, ViewGroup parent) {
+
         // TODO Auto-generated method stub
         final Holder holder=new Holder();
         final View rowView;
@@ -260,6 +273,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
 
         holder.menos=(Button) rowView.findViewById(R.id.btn_menos);
 
+        setbackground(listaItens.getListaItens().get(position).isCheck(),rowView,holder.name);
 
 
 
@@ -276,13 +290,25 @@ public class CustomAdapterListaItens  extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 if(!listaItens.getListaItens().get(position).isCheck()) {
+                   // holder.name.setBackground(context.getDrawable(R.drawable.ic_bt9));
                     listActivity.modifyCheck(position,1);
-                    //rowView.setOpaque(true);
-                    //holder.name.setBackgroundResource(R.drawable.ic_select);
-                    //holder.name.setBackgroundColor(5);
-                   // Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
+
+
+                    //convertView.setBackground(context.getDrawable(R.drawable.ic_bt9));
+                    //holder.name.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                   // holder.name.setPaintFlags(holder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                    //holder.name.setText(holder.name.getText(), TextView.BufferType.SPANNABLE);
+                   // Spannable spannable = (Spannable) holder.name.getText();
+                   // spannable.setSpan(STRIKE_THROUGH_SPAN, 0, holder.name.getText().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    Toast.makeText(context, "You Checked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }else{
+                   // holder.name.setBackground(null);
                     listActivity.modifyCheck(position,0);
+                    //rowView.setBackground(context.getDrawable(R.color.colorTransp));
+
+                    //convertView.setBackgroundResource(android.R.color.transparent);
+                   // holder.name.setBackgroundColor(Color.WHITE);
                    // Toast.makeText(context, "You Unchecked "+listaItens.getListaItens().get(position).getNome(), Toast.LENGTH_LONG).show();
                 }
 
