@@ -106,10 +106,12 @@ public class MainActivity extends AppCompatActivity {
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             name = cursor.getString(cursor.getColumnIndex(database.getNomeItem()));
             key=cursor.getLong(cursor.getColumnIndex(database.getIdItem()));
-            preco=cursor.getLong(cursor.getColumnIndex(database.getPrecoItem()));
+            preco=cursor.getFloat(cursor.getColumnIndex(database.getPrecoItem()));
             check=cursor.getInt(cursor.getColumnIndex(database.getCheckItem()));
             quant=cursor.getLong(cursor.getColumnIndex(database.getQuantItem()));
             itens.AddItem(new Item(name, quant, preco,check,key));
+
+
         }
         cursor.close();
 

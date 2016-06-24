@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class ListActivity extends AppCompatActivity {
     private DbController database;
     private TextView numItens;
     private TextView total;
+    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("0.##");
 
     public void notifyData(){
         adapter.notifyDataSetChanged();
@@ -161,7 +163,7 @@ public class ListActivity extends AppCompatActivity {
         updateNumItens();//numItens.setText(String.valueOf(listaItens.getListaItens().size()-listaItens.getNumItensChecked()));
 
         total=(TextView) findViewById(R.id.list_preco);
-        total.setText(String.valueOf(listaItens.getTotal()));
+        total.setText(String.valueOf(REAL_FORMATTER.format(listaItens.getTotal())));
 
     }
 
@@ -199,7 +201,8 @@ public class ListActivity extends AppCompatActivity {
     public void atualizaPrecoTotal(float novoPreco,int pos){
             listaItens.setTotal(listaItens.getTotal() + novoPreco);
             database.alteraLista(listaItens.getKey(), listaItens.getNome(), listaItens.getNumItensChecked(), listaItens.getTotal());
-            total.setText(String.valueOf(listaItens.getTotal()));
+
+            total.setText(String.valueOf(REAL_FORMATTER.format(listaItens.getTotal())));
 
     }
 

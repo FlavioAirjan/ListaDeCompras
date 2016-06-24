@@ -249,6 +249,7 @@ public class CustomAdapterListaItens  extends BaseAdapter{
         holder.name.setText(listaItens.getListaItens().get(position).getNome());
         holder.quantidade.setText(String.valueOf(listaItens.getListaItens().get(position).getQuantidade()));
         holder.preco.setText(String.valueOf(listaItens.getListaItens().get(position).getPreco()));
+
         holder.checkBox.setChecked(listaItens.getListaItens().get(position).isCheck());
 
 
@@ -340,8 +341,11 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
 
                             // the user is done typing.
-
-                            listActivity.modifyQuant(position,Float.valueOf(v.getEditableText().toString()));
+                            float temp=Float.valueOf(v.getEditableText().toString());
+                            if(temp==0f){
+                                temp=1;
+                            }
+                            listActivity.modifyQuant(position,temp);
 
                             if (rowView.hasFocus()) {
                                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -409,8 +413,8 @@ public class CustomAdapterListaItens  extends BaseAdapter{
                         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
 
                             // the user is done typing.
-                            String temp=v.getEditableText().toString().replace("-","");
-                            listActivity.modifyPreco(position,Float.valueOf(temp));
+                            //String temp=v.getEditableText().toString().replace("-","");
+                            listActivity.modifyPreco(position,Float.valueOf(v.getEditableText().toString()));
 
                             if (rowView.hasFocus()) {
                                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
