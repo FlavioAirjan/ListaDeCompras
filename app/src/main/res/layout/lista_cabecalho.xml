@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="6dp"
+    android:background="@color/colorTransp"
+    >
+
+    <ImageView
+        android:background="@drawable/ic_check"
+        android:scaleY="1"
+        android:scaleX="0.5"
+        android:id="@+id/linearLayout1"
+        android:layout_width="75dp"
+        android:gravity="center"
+        android:layout_weight="0.08"
+        android:layout_height="40dp">
+    </ImageView>
+
+
+    <TextView
+        android:layout_marginLeft="75dp"
+        android:selectAllOnFocus="true"
+        android:id="@+id/nomeItem"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:ellipsize="end"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:singleLine="true"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/quantItem"
+        android:background="@android:color/transparent"
+        android:text="Item"/>
+
+
+    <TextView
+        android:id="@+id/precoItem"
+        android:inputType="numberDecimal"
+        android:layout_width="60dp"
+        android:selectAllOnFocus="true"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:singleLine="true"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/btn_menos"
+        android:text="Preço"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:inputType="number"
+        android:id="@+id/quantItem"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:singleLine="true"
+        android:gravity="center"
+        android:text="Quant"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/precoItem" />
+
+
+    <TextView
+        android:id="@+id/btn_menos"
+        android:layout_width="41dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
