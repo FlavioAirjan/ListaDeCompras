@@ -135,8 +135,10 @@ public class MainActivity extends AppCompatActivity {
                 key=cursor.getLong(cursor.getColumnIndex(database.getIdLista()));
                 checked=cursor.getInt(cursor.getColumnIndex(database.getCheckedItens()));
                 preco=cursor.getLong(cursor.getColumnIndex(database.getPrecoLista()));
+                System.out.println(preco);
                 pastaLista.addLista(name, key,checked,preco);
                 povoaItens(key,pastaLista.getListItens(key));
+                pastaLista.getListItens(key).sumTotal();
 
             }
         cursor.close();

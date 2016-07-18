@@ -168,38 +168,41 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void modifyQuant(int pos, float quant){
+        float aux= listaItens.getListaItens().get(pos).getPrecoTotal();
+        listaItens.getListaItens().get(pos).setQuantidade(quant);
+        if(listaItens.getListaItens().get(pos).isCheck()) {
+            atualizaPrecoTotal(listaItens.getListaItens().get(pos).getPrecoTotal()-aux, pos);
+        }
         database.alteraItem(listaItens.getListaItens().get(pos).getId(),
                 listaItens.getKey(),
                 listaItens.getListaItens().get(pos).getNome(),
                 listaItens.getListaItens().get(pos).getPreco(),
-                quant,
+                listaItens.getListaItens().get(pos).getQuantidade(),
                 listaItens.getListaItens().get(pos).checkInt());
-
-        if(listaItens.getListaItens().get(pos).isCheck()) {
-            atualizaPrecoTotal((listaItens.getListaItens().get(pos).getPreco()*quant)-listaItens.getListaItens().get(pos).getPrecoTotal(), pos);
-        }
-        listaItens.getListaItens().get(pos).setQuantidade(quant);
         notifyData();
     }
 
     public void modifyPreco(int pos, float preco){
-        database.alteraItem(listaItens.getListaItens().get(pos).getId(),
-                listaItens.getKey(),
-                listaItens.getListaItens().get(pos).getNome(),
-                preco,
-                listaItens.getListaItens().get(pos).getQuantidade(),
-                listaItens.getListaItens().get(pos).checkInt());
+
 
         if(listaItens.getListaItens().get(pos).isCheck()) {
             atualizaPrecoTotal(preco * listaItens.getListaItens().get(pos).getQuantidade()-listaItens.getListaItens().get(pos).getPrecoTotal(), pos);
         }
         listaItens.getListaItens().get(pos).setPreco(preco);
 
+        database.alteraItem(listaItens.getListaItens().get(pos).getId(),
+                listaItens.getKey(),
+                listaItens.getListaItens().get(pos).getNome(),
+                listaItens.getListaItens().get(pos).getPreco(),
+                listaItens.getListaItens().get(pos).getQuantidade(),
+                listaItens.getListaItens().get(pos).checkInt());
+
         notifyData();
     }
 
     public void atualizaPrecoTotal(float novoPreco,int pos){
             listaItens.setTotal(listaItens.getTotal() + novoPreco);
+        //System.out.println(listaItens.getTotal());
             database.alteraLista(listaItens.getKey(), listaItens.getNome(), listaItens.getNumItensChecked(), listaItens.getTotal());
 
             total.setText(String.valueOf(REAL_FORMATTER.format(listaItens.getTotal())));
@@ -216,19 +219,23 @@ public class ListActivity extends AppCompatActivity {
                 check);
 
         //check item e muda posicao na lista
+        float aux=listaItens.getListaItens().get(pos).getPrecoTotal();
         if(check==1) {
+
             listaItens.getListaItens().get(pos).setCheck(true);
-            atualizaPrecoTotal(listaItens.getListaItens().get(pos).getPrecoTotal(),pos);
+
             listaItens.getListaItens().add(listaItens.getListaItens().get(pos));
             listaItens.getListaItens().remove(pos);
             listaItens.setNumItensChecked(listaItens.getNumItensChecked()+1);
+            atualizaPrecoTotal(aux,pos);
 
         }else{
             listaItens.getListaItens().get(pos).setCheck(false);
-            atualizaPrecoTotal(-listaItens.getListaItens().get(pos).getPrecoTotal(),pos);
+
             listaItens.getListaItens().add(0,listaItens.getListaItens().get(pos));
             listaItens.getListaItens().remove(pos+1);
             listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
+            atualizaPrecoTotal(-aux,pos);
 
         }
 
@@ -256,10 +263,10 @@ public class ListActivity extends AppCompatActivity {
 
                 //Se o item deletado estava checked
                 if(listaItens.getListaItens().get(pos).isCheck()){
-                    atualizaPrecoTotal(-listaItens.getListaItens().get(pos).getPrecoTotal(),pos);
+                    float aux=-listaItens.getListaItens().get(pos).getPrecoTotal();
                     listaItens.getListaItens().remove(pos);
                     listaItens.setNumItensChecked(listaItens.getNumItensChecked()-1);
-
+                    atualizaPrecoTotal(aux,pos);
                     database.alteraLista(listaItens.getKey(),listaItens.getNome(),listaItens.getNumItensChecked(),listaItens.getTotal());
                 }else{
                     listaItens.getListaItens().remove(pos);

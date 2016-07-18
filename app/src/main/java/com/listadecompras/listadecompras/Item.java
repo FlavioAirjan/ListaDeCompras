@@ -5,7 +5,10 @@ import java.io.Serializable;
 /**
  * Created by Flavio on 17/05/2016.
  */
+
 public class Item implements Serializable{
+    public static float MAXQuant=10000;
+    public static float MAXPreco=100000;
     private String nome;
     private float quantidade;
     private String tipo;
@@ -17,7 +20,13 @@ public class Item implements Serializable{
     }
 
     public void setPrecoTotal() {
-        this.precoTotal = quantidade*preco;
+
+        if(quantidade*preco>MAXPreco*MAXQuant) {
+            this.precoTotal = MAXPreco*MAXQuant;
+        }else{
+            this.precoTotal = quantidade*preco;
+        }
+
     }
 
     private boolean check;
@@ -124,7 +133,11 @@ public class Item implements Serializable{
         if(quantidade<=0){
             this.quantidade = 1;
         }else {
-            this.quantidade = quantidade;
+            if(quantidade>=MAXQuant) {
+                this.quantidade=MAXQuant;
+            }else {
+                this.quantidade = quantidade;
+            }
         }
         setPrecoTotal();
     }
@@ -154,6 +167,12 @@ public class Item implements Serializable{
     }
 
     public void setPreco(float preco) {
+        if(preco<0){
+            preco=preco*-1;
+        }
+        if(preco>MAXPreco){
+            preco=MAXPreco;
+        }
         this.preco = preco;
         setPrecoTotal();
     }

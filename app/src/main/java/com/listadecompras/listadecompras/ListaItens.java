@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by Flavio on 17/05/2016.
  */
 public class ListaItens implements Serializable {
-
+    public static float MAXPreco=100000*10000*100;
     private List<Item> listaItens;
     private String nome;
     private long key;
@@ -30,7 +30,13 @@ public class ListaItens implements Serializable {
 
         total=0;
         for (int i=0;i<this.listaItens.size();i++) {
-            total += this.listaItens.get(i).getPreco();
+            if(this.listaItens.get(i).isCheck()) {
+                total += this.listaItens.get(i).getPrecoTotal();
+            }
+        }
+
+        if(total>MAXPreco){
+            total=MAXPreco;
         }
     }
 
@@ -48,10 +54,14 @@ public class ListaItens implements Serializable {
     }
 
     public void setTotal(float total) {
-        if(total<0) {
-            this.total = 0;
+        if(total<=0) {
+            sumTotal();
         }else{
-            this.total = total;
+            if(total>MAXPreco) {
+                this.total = MAXPreco;
+            }else {
+                this.total = total;
+            }
         }
     }
 
@@ -69,6 +79,7 @@ public class ListaItens implements Serializable {
         this.numItensChecked=checked;
         this.total=preco;
         this.listaItens = new ArrayList<>();
+
     }
 
 
