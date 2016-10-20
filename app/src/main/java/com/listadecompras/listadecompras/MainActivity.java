@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     CustomAdapterListaListas adapter;
     int click;
     private DbController database;
+    private TextView numItens;
 
 
     public void addContext(Context context) {
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     database.deletaLista(pastaLista.getListaListas().get(pos).getKey());
                     pastaLista.getListaListas().remove(pos);
+                    updateNumItens();
                     adapter.notifyDataSetChanged();
                 }
 
@@ -151,12 +154,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
         pastaLista = new PastaListas();
         database= new DbController(context);
         povoaClasses();
+
+
+        numItens= (TextView) findViewById(R.id.list_number);
+        updateNumItens();
 
        // pastaLista.addLista("Primeira Lista");
 
@@ -178,12 +187,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                    Toast.makeText(context, "Add Lista", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Add Lista", Toast.LENGTH_LONG).show();
 
                     adapter.addItem(new ListaItens("Nova Lista",database.insereLista("Nova Lista",0,0),0,0));
-                    //addListaBD("outra Lista");
+                    updateNumItens();
                     adapter.notifyDataSetChanged();
-
 
             }
         });
@@ -200,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void notifyData(){
         adapter.notifyDataSetChanged();
+    }
+
+    private void updateNumItens(){
+        numItens.setTextColor(Color.rgb(63,81,181));
+        numItens.setText(String.valueOf(pastaLista.getListaListas().size()));
     }
 
 }

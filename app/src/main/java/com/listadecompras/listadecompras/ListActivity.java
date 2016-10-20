@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -62,6 +63,8 @@ public class ListActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
         //inicia DB
 
         //povoaClasses();
@@ -148,7 +151,7 @@ public class ListActivity extends AppCompatActivity {
 
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(context, "Menu Inicial", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Menu Inicial", Toast.LENGTH_LONG).show();
                // Intent i = new Intent(v.getContext(), MainActivity.class);
                // startActivity(i);
                 Intent returnIntent = new Intent();

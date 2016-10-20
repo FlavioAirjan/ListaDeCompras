@@ -209,49 +209,6 @@ public class CustomAdapterListaListas extends BaseAdapter {
                 }
             }
         });
-        /*click = 0;
-        rowView.findViewById(R.id.nome_lista).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                click++;
-                Handler handler = new Handler();
-                Runnable r = new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (click == 1) {
-                            String item = pastaListas.getListaListas().get(position).getNome();//getListItens("NOVA").getListaItens().get(position).getNome();
-                            Toast.makeText(context, item, Toast.LENGTH_LONG).show();
-                            listActivity.startActivity(position);
-                        }
-                        click = 0;
-                    }
-                };
-
-                if (click == 1) {
-                    //Single click
-                    handler.postDelayed(r, 400);
-
-                    //holder.name.setClickable(true);
-                    // TODO Auto-generated method stub
-
-                } else if (click == 2) {
-                    //Double click
-                    click = 0;
-
-                    makeDialog(position);
-                    Toast.makeText(context, "teste", Toast.LENGTH_LONG).show();
-
-
-
-
-                }
-
-
-            }
-        });*/
-
 
         return rowView;
     }

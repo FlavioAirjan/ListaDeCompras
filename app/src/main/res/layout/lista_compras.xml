@@ -1,92 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.listadecompras.listadecompras.ListActivity"
-    android:id = "@+id/container"
-    android:background="@mipmap/ic_paper">
+    android:background="@mipmap/ic_paper"
+    tools:context="com.listadecompras.listadecompras.ListActivity">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id = "@+id/RL_quant"
-        android:layout_toStartOf="@+id/add_item_button"
-        android:weightSum="1"
-        android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/add_item_button"
-        android:layout_toLeftOf="@+id/add_item_button">
-    <TextView android:id="@+id/list_item_number"
+        android:id="@+id/RL_quant"
         android:layout_width="wrap_content"
-        android:layout_height="75dip"
-        android:gravity="left|center"
-        android:textSize="26sp"
-        android:layout_marginLeft="0dp"
-        android:layout_alignParentBottom="false"
-        android:layout_weight="0.38"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="false"
-        android:layout_toRightOf="@+id/list_restam">
-    </TextView>
-
-    <TextView android:id="@+id/list_restam"
-        android:layout_width="80dp"
-        android:layout_height="75dip"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignTop="@+id/add_item_button"
+        android:layout_below="@+id/list_itens"
+        android:layout_toLeftOf="@+id/add_item_button"
+        android:layout_toStartOf="@+id/add_item_button"
         android:gravity="center"
-        android:textSize="20sp"
-        android:text="Restam: "
-        android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-    </TextView>
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/list_item_number"
+                android:layout_width="wrap_content"
+                android:layout_height="75dip"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_toStartOf="@+id/list_restam"
+                android:layout_weight="0.3"
+                android:gravity="right|center"
+                android:textSize="20sp"></TextView>
+
+            <TextView
+                android:id="@+id/list_restam"
+                android:layout_width="wrap_content"
+                android:layout_height="75dip"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="0dp"
+                android:gravity="center"
+                android:text="Restantes"
+                android:textSize="20sp"></TextView>
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/RL_preco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id = "@+id/RL_preco"
-        android:gravity="center"
-        android:weightSum="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/add_item_button"
-        android:layout_below="@+id/list_itens"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="false"
+        android:layout_alignTop="@+id/add_item_button"
+        android:layout_below="@+id/list_itens"
+        android:layout_toEndOf="@+id/add_item_button"
         android:layout_toRightOf="@+id/add_item_button"
-        android:layout_alignTop="@+id/add_item_button">
+        android:gravity="center"
+        android:weightSum="1">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
 
-            <TextView android:id="@+id/list_total"
+            <TextView
+                android:id="@+id/list_total"
                 android:layout_width="wrap_content"
                 android:layout_height="75dip"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:text="R$: "
-                android:layout_marginLeft="0dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true">
-            </TextView>
-            <TextView android:id="@+id/list_preco"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="0dp"
+                android:gravity="left|center"
+                android:text="Total: R$ "
+                android:textSize="20sp"></TextView>
+
+            <TextView
+                android:id="@+id/list_preco"
                 android:layout_width="wrap_content"
                 android:layout_height="75dip"
-                android:gravity="left|center"
-                android:textSize="20sp"
-                android:layout_marginLeft="0dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="false"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
                 android:layout_toEndOf="@+id/list_total"
-                android:layout_gravity="center">
-            </TextView>
+                android:gravity="left|center"
+                android:textSize="20sp"></TextView>
 
         </LinearLayout>
     </RelativeLayout>
@@ -95,67 +107,66 @@
         android:id="@+id/list_itens"
         android:layout_width="wrap_content"
         android:layout_height="366dp"
-        android:layout_marginLeft="0dp"
-        android:layout_gravity="right|center_vertical"
         android:layout_above="@+id/add_item_button"
-        android:layout_below="@+id/include"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"></ListView>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/include"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginLeft="0dp"></ListView>
 
-    <include layout="@layout/lista_cabecalho"
+    <include
+        android:id="@+id/include"
+        layout="@layout/lista_cabecalho"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/include"
-        android:layout_below="@+id/menu_inicial"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/menu_inicial" />
 
 
     <Button
         android:id="@+id/add_item_button"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:background="@mipmap/ic_add"
-        android:layout_gravity="right|bottom"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-    </Button>
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="right|bottom"
+        android:background="@mipmap/ic_add"></Button>
 
     <Button
         android:id="@+id/menu_inicial"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:background="@mipmap/ic_backbutton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_gravity="left|top"
         android:layout_marginLeft="0dp"
-        android:textAlignment="inherit"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-    </Button>
+        android:background="@mipmap/ic_backbutton"
+        android:textAlignment="inherit"></Button>
 
-    <EditText android:id="@+id/list_text_view_name"
+    <EditText
+        android:id="@+id/list_text_view_name"
         android:layout_width="wrap_content"
         android:layout_height="75dp"
-        android:gravity="center"
-        android:textSize="36sp"
-        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="right|top"
-        android:imeOptions="actionDone"
-        android:selectAllOnFocus="true"
-        android:inputType="textPersonName"
+        android:layout_marginLeft="0dp"
         android:background="@android:color/transparent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-    </EditText>
+        android:gravity="center"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:textSize="36sp"></EditText>
 
-    <ImageView android:layout_width="75dp"
-        android:layout_height="75dp"
+    <ImageView
         android:id="@+id/imagecart"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_cart2"
         android:scaleX="-1"
-        android:layout_alignParentEnd="true"></ImageView>
+        android:src="@drawable/ic_cart2"></ImageView>
 
 
 </RelativeLayout>
